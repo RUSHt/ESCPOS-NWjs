@@ -79,7 +79,7 @@ var currentPrinter = list.options[list.selectedIndex].text;
         canvas.height = 100;
         ctx.fillStyle = 'black';
         ctx.rect(10,10,50,50);
-        ctx.stroke;
+        ctx.stroke();
         ctx.font = '10px sans-serif';
         ctx.fillText('Hello World',75,50);
         document.body.appendChild(canvas);
@@ -88,7 +88,7 @@ var currentPrinter = list.options[list.selectedIndex].text;
         image.onload = () => { 
           console.log('loaded');
           Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,image,33,true,127));
-      //Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,'c:/Users/bmc equip/nw-sdk/nw/escposimage.jpg',33,true,127));
+          Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,'c:\\Users\\bmc equip\\nw-sdk\\nw\\escposimage.jpg',33,true,127));
           var sucess = Printer.ESCPOS_PRINT(currentPrinter);
           if(!sucess){
                   alert(Printer.ESCPOS_LASTERROR);
