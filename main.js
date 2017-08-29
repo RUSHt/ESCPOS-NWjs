@@ -95,7 +95,7 @@ var currentPrinter = list.options[list.selectedIndex].text;
           document.body.appendChild(image);
           console.log('image.width',image.width);
           console.log('image.height',image.height);
-          return;
+          //return;
           Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
           
           Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,image,33,true,127));
