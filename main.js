@@ -172,7 +172,7 @@ var currentPrinter = list.options[list.selectedIndex].text;
            Printer.append("Have a break after 5 lines \n");           
            Printer.append("\n");           
            Printer.append("What abour a Logo or other image \n\n");
-           Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,'escposimage.jpg',33,true,127));
+           //Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,'escposimage.jpg',33,true,127));
            Printer.append(Printer.ESCPOS_CMD.FEEDLINES_ANDPRINT(2));
            Printer.append("Looking nice, isnt it \n");
            Printer.append("but a QR code is more stylish nowadays \n");
