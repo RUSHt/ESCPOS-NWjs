@@ -49,6 +49,21 @@
 var fileSys = require('fs');
 var operatingSys = require('os');
 
+var serialPorts = [
+    { com: 'COM8', device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
+]
+    
+    serialPorts.forEach(port => {
+        chrome.serial.connect(port.com,(resp) => {
+            port.connected = resp;
+            serialPorts[port.device] = port;
+            serialPorts[resp.connectionId] = port;
+            port.send = (buffer,cB) => {
+                chrome.serial.send(resp.connectionId,buffer,(resp) => cB(resp));
+            }
+        });       
+    })
+
 //defaulting OS to whatever you like init function will detect appropriately
 
 // this one is needed and must be set to whatever the language of your Win (cmd output) puts out for the Word "Printer"
@@ -75,16 +90,14 @@ var Printer; // will be passed in on init.
 // Initialitiation of Output and printerlist
 // should be called before every use because the require will cache code AND values
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
-exports.ESCPOS_INIT = function  (printer) {
+exports.ESCPOS_INIT = function  () {
  
 var listCommand = "";
 var listResult = "";
 var listResultLines = [];
 var listLineParts = [];
 var detailParts = [];
-
-// chrome.serial.Printer passed on init;
-Printer = printer;   
+ 
 // resetting the output to empty string
 ESCPOS_RESULT = "";
 // and the Errorstring
@@ -154,7 +167,7 @@ var foundprinter = false;
 
         try{
             fileSys.readFile(filename,(e,file) => {
-                Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
+                serialPorts.Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
             })
         }
         catch(e) {

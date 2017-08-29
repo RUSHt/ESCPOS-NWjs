@@ -1,23 +1,8 @@
 Printer = require('./escpos_printing.js');
 
-var serialPorts = [
-    { com: 'COM8', device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
-]
-    
-    serialPorts.forEach(port => {
-        chrome.serial.connect(port.com,(resp) => {
-            port.connected = resp;
-            serialPorts[port.device] = port;
-            serialPorts[resp.connectionId] = port;
-            port.send = (buffer,cB) => {
-                chrome.serial.send(resp.connectionId,buffer,(resp) => cB(resp));
-            }
-        });       
-    })
-
 function init() {
 
-Printer.ESCPOS_INIT(serialPorts.Printer);
+Printer.ESCPOS_INIT();
 
 }
 function Test_print() {
