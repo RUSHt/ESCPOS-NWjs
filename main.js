@@ -98,7 +98,7 @@ var currentPrinter = list.options[list.selectedIndex].text;
           //return;
           Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
           
-          Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,image,33,true,127));
+          Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,canvas,33,true,127));
 
           Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
           //Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,fileName,33,true,127));
