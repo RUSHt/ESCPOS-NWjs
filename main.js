@@ -75,12 +75,12 @@ var currentPrinter = list.options[list.selectedIndex].text;
 
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');  
-        canvas.width = 100;
+        canvas.width = 400;
         canvas.height = 100;
         ctx.fillStyle = 'red';
-        ctx.fillRect(10,10,30,30);
+        ctx.rect(10,10,50,50);
         ctx.font = '10px sans-serif';
-        ctx.fillText('Hello',5,15);
+        ctx.fillText('Hello World',5,15);
         document.body.appendChild(canvas);
 
     Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,canvas,33,true,127));
