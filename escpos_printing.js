@@ -51,28 +51,12 @@ var operatingSys = require('os');
 
 //defaulting OS to whatever you like init function will detect appropriately
 
-
-var serialPorts = [
-    { com: 'COM8', device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
-]
-    
-    serialPorts.forEach(port => {
-        chrome.serial.connect(port.com,(resp) => {
-            port.connected = resp;
-            serialPorts[port.device] = port;
-            serialPorts[resp.connectionId] = port;
-            port.send = (buffer,cB) => {
-                chrome.serial.send(resp.connectionId,buffer,(resp) => cB(resp));
-            }
-        });       
-    })
-
 // this one is needed and must be set to whatever the language of your Win (cmd output) puts out for the Word "Printer"
 // as mine is German i set it to the German Expression for Printer which is "Drucker"
 // nOt necessary anymore as we use power shell now which is hopefully always in english
 //var OS_PRINTERKEYWORD = "Drucker";
 // this array will contain shared printers on Win and all lp printers on cups Systems
-exports.ESCPOS_PRINTERLIST = [];
+//exports.ESCPOS_PRINTERLIST = [];
 // needs to be filled with the calling mains window object which is done in the init function
 // might skip this when using node 13 by using mixed context
 var ESCPOS_MOTHER ="";
@@ -80,6 +64,9 @@ var ESCPOS_MOTHER ="";
 exports.ESCPOS_LASTERROR = "";
 // The thing we want to create: a fully formatted ESC/POS String
 var ESCPOS_RESULT = "";
+
+var Printer; // will be passed in on init.
+
 //=======================================================================================================================================================
 
 
@@ -88,21 +75,20 @@ var ESCPOS_RESULT = "";
 // Initialitiation of Output and printerlist
 // should be called before every use because the require will cache code AND values
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
-exports.ESCPOS_INIT = function  () {
+exports.ESCPOS_INIT = function  (printer) {
+ 
 var listCommand = "";
 var listResult = "";
 var listResultLines = [];
 var listLineParts = [];
 var detailParts = [];
 
+// chrome.serial.Printer passed on init;
+Printer = printer;   
 // resetting the output to empty string
 ESCPOS_RESULT = "";
 // and the Errorstring
 ESCPOS_LASTERROR = "";
-// listing all relevant printers on Windows they need to be shared printers
-
-// resetting the printer-array;
-exports.ESCPOS_PRINTERLIST.length = 0;
 
 }
 //=======================================================================================================================================================
@@ -168,7 +154,7 @@ var foundprinter = false;
 
         try{
             fileSys.readFile(filename,(e,file) => {
-                serialPorts.Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
+                Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
             })
         }
         catch(e) {
