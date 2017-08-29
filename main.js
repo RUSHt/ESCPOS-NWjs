@@ -77,12 +77,12 @@ var currentPrinter = list.options[list.selectedIndex].text;
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');  
         canvas.width = 500;
-        canvas.height = 150;
+        canvas.height = 161;
         ctx.fillStyle = 'black';
         ctx.rect(10,10,50,50);
         ctx.stroke();
-        ctx.font = '10px sans-serif';
-        ctx.fillText('Hello World',75,50);
+        ctx.font = '20px sans-serif';
+        ctx.fillText('Hello World',75,20);
         //document.body.appendChild(canvas);
 
     var fileName = 'c:\\Users\\bmc equip\\nw-sdk\\nw\\escposimage.jpg'; 
