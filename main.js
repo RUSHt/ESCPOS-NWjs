@@ -60,7 +60,7 @@ function Test_print() {
            Printer.append(Printer.ESCPOS_CMD.FEEDLINES_ANDPRINT(5));
            Printer.append("This is the end after 5 lines \nand cutting off after 100 Units");           
            //Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
-           Printer.append(Printer.ESCPOS_CMD.CUT_PARTIAL);
+           Printer.append(Printer.ESCPOS_CMD.CUT_FULL);
            
            
 
