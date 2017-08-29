@@ -135,7 +135,7 @@ exports.ESCPOS_PRINT = function(cB) {
 // we use tempdir as it should be available and read/writeble in all Systems
 
 var tempdir = operatingSys.tmpdir();
-var filename = tempdir + "/escpos.prt";
+var filename = tempdir + "/escpos-"+Date.now()+".prt";
 //needed for linux printing
 var printcommand = ""; 
 var printresult = "";
@@ -165,17 +165,9 @@ var foundprinter = false;
 
         ESCPOS_RESULT = "";
         
-// finally use OS specific method to copy to printer or print it via cups lp implementation
-// Windows needs try catch , while cups delivers a result anyway
-
-        try{
-            fileSys.readFile(filename,(e,file) => {
-                serialPorts.Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
-            })
-        }
-        catch(e) {
-            typeof cB == 'function' && cB({ error: "Error copying prt file : "+e.message });
-        }
+        fileSys.readFile(filename,(e,file) => {
+            serialPorts.Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
+        })
         
     
 }
@@ -272,9 +264,6 @@ exports.appendCanvas = function(canvas,ESCPOS_IMGMODE = 33,ESCPOS_DITHER = true,
         ESCPOS_DITHER       = ESCPOS_IMGMODE.dither;
         ESCPOS_IMGTHRESHOLD = ESCPOS_IMGMODE.threshold;
         ESCPOS_IMGMODE      = ESCPOS_IMGMODE.mode;
-        if ( typeof ESCPOS_DITHER == 'function' ) {
-            cB = ESCPOS_DITHER;
-        }
     }
 
     ESCPOS_RESULT = ESCPOS_RESULT + exports.ESCPOS_IMAGEFILE(null,canvas,ESCPOS_IMGMODE,ESCPOS_DITHER,ESCPOS_IMGTHRESHOLD)

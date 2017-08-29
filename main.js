@@ -10,7 +10,7 @@ function Test_print() {
 //var currentPrinter = list.options[list.selectedIndex].text;
           console.log('Test_print');
 
-           //Printer.ESCPOS_INIT('COM8');
+           Printer.ESCPOS_INIT();
 
            Printer.append(Printer.ESCPOS_CMD.RESET);
            Printer.append(Printer.ESCPOS_CMD.CENTER);
@@ -50,10 +50,8 @@ function Test_print() {
            
            
 
-        var sucess = Printer.ESCPOS_PRINT((resp) => { console.log(resp)});
-        if(!sucess){
-                alert(Printer.ESCPOS_LASTERROR);
-        }           
+           Printer.ESCPOS_PRINT((resp) => { console.log(resp)});
+          
 }
 
 function Test_Imageprint() {
@@ -162,13 +160,8 @@ function Test_Full() {
            
            
            Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
-           
-           
-
-        var sucess = Printer.ESCPOS_PRINT((resp) => console.log(resp));
-        if(!sucess){
-                alert(Printer.ESCPOS_LASTERROR);
-        }               
+           Printer.ESCPOS_PRINT((resp) => console.log(resp));
+             
 }
 
 
