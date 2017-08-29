@@ -73,7 +73,18 @@ function Test_Imageprint() {
 var list = document.getElementById("printerlist")
 var currentPrinter = list.options[list.selectedIndex].text;
 
-    Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,'c:/Users/bmc equip/nw-sdk/nw/escposimage.jpg',33,true,127));
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');  
+        canvas.width = 100;
+        canvas.height = 100;
+        ctx.fillStyle = 'red';
+        ctx.fillRect(10,10,30,30);
+        ctx.font = '10px sans-serif';
+        ctx.fillText('Hello',5,15);
+        document.body.appendChild(canvas);
+
+    Printer.append(Printer.ESCPOS.ESCPOS_IMAGEFILE(this.window,canvas,33,true,127));
+    //Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,'c:/Users/bmc equip/nw-sdk/nw/escposimage.jpg',33,true,127));
         var sucess = Printer.ESCPOS_PRINT(currentPrinter);
         if(!sucess){
                 alert(Printer.ESCPOS_LASTERROR);
