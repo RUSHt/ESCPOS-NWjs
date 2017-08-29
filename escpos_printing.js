@@ -309,8 +309,8 @@ exports.ESCPOS_CMD = {
         RIGHT: new Buffer('1B6102','hex').toString('utf8'),
         // mere cutting command will cut paper in the middle of your text due to different positions of print- and cuthead
         // looks like not all printers support different cutting modes        
-        CUT_FULL: new Buffer('1D563000','hex').toString('utf8'),
-        CUT_PARTIAL: new Buffer('1D563100','hex').toString('utf8'),
+        CUT_FULL: new Buffer('1D5630','hex').toString('utf8'),
+        CUT_PARTIAL: new Buffer('1D5631','hex').toString('utf8'),
         // feed x motionunits and cut
         FEEDCUT_FULL: function(units){
                 command = new Buffer('1D5641'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
