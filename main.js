@@ -17,7 +17,7 @@ var serialPorts = [
 
 function init() {
 
-Printer.ESCPOS_INIT(SerialPorts.Printer);
+Printer.ESCPOS_INIT(serialPorts.Printer);
 
 }
 function Test_print() {
