@@ -1,5 +1,5 @@
 Printer = require('./escpos_printing.js');
-
+fs = require('fs');
 function init() {
 alert("Welcome to a Demo of ESCPOS");
 Printer.ESCPOS_INIT();
