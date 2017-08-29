@@ -73,7 +73,7 @@ function Test_Imageprint() {
 var list = document.getElementById("printerlist")
 var currentPrinter = list.options[list.selectedIndex].text;
 
-    Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,'escposimage.jpg',33,true,127));
+    Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,__dirname+'escposimage.jpg',33,true,127));
         var sucess = Printer.ESCPOS_PRINT(currentPrinter);
         if(!sucess){
                 alert(Printer.ESCPOS_LASTERROR);
