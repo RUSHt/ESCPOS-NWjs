@@ -76,8 +76,8 @@ var currentPrinter = list.options[list.selectedIndex].text;
 
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');  
-        canvas.width = 400;
-        canvas.height = 100;
+        canvas.width = 500;
+        canvas.height = 150;
         ctx.fillStyle = 'black';
         ctx.rect(10,10,50,50);
         ctx.stroke();
@@ -103,8 +103,10 @@ var currentPrinter = list.options[list.selectedIndex].text;
                   alert(Printer.ESCPOS_LASTERROR);
           }
         }
-
-        image.src = "data:image/jpg;base64," + fs.readFileSync(fileName).toString("base64");
+        console.log(canvas.toDataURL());
+        return;
+        image.src = "data:image/png;base64," + canvas.toDataURL();
+        //image.src = "data:image/jpg;base64," + fs.readFileSync(fileName).toString("base64");
         //image.src = canvas.toDataURL('image/png')           
 }
 
