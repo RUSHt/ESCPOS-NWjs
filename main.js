@@ -83,7 +83,7 @@ var currentPrinter = list.options[list.selectedIndex].text;
         ctx.fillText('Hello',5,15);
         document.body.appendChild(canvas);
 
-    Printer.append(Printer.ESCPOS.ESCPOS_IMAGEFILE(this.window,canvas,33,true,127));
+    Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,canvas,33,true,127));
     //Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,'c:/Users/bmc equip/nw-sdk/nw/escposimage.jpg',33,true,127));
         var sucess = Printer.ESCPOS_PRINT(currentPrinter);
         if(!sucess){
