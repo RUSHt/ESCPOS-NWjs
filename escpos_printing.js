@@ -255,7 +255,7 @@ var foundprinter = false;
         if (OS=="WIN") {
             try{
                 console.log('sending Chrome Serial');
-                serialPorts.Printer.send(fileSys.readFileSync(filename),(resp) => console.log(resp));
+                serialPorts.Printer.send(fileSys.readFileSync(filename).buffer,(resp) => console.log(resp));
                 //fileSys.writeFileSync('//localhost/'+printername, fileSys.readFileSync(filename));
                 exports.ESCPOS_LASTERROR = "data printed";
                 return true
