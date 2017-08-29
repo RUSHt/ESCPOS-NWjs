@@ -104,9 +104,9 @@ var currentPrinter = list.options[list.selectedIndex].text;
           }
         }
 
-        //image.src = canvas.toDataURL('image/jpg');
+        image.src = canvas.toDataURL('image/jpeg');
 
-        image.src = "data:image/jpg;base64," + fs.readFileSync(fileName).toString("base64");
+        //image.src = "data:image/jpg;base64," + fs.readFileSync(fileName).toString("base64");
         //image.src = canvas.toDataURL('image/png')  
         console.log('image.src',image.src);         
 }
