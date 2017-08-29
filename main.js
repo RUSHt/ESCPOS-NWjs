@@ -95,7 +95,7 @@ var currentPrinter = list.options[list.selectedIndex].text;
           console.log('image.height',image.height);
           //Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,image,33,true,127));
           Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,fileName,33,true,127));
-          var sucess = Printer.ESCPOS_PRINT(currentPrinter);
+          var sucess = Printer.ESCPOS_PRINT(() => console.log('ESCPOS_PRINT',resp));
           if(!sucess){
                   alert(Printer.ESCPOS_LASTERROR);
           }
