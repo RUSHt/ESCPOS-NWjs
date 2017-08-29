@@ -251,8 +251,8 @@ var foundprinter = false;
 // Windows needs try catch , while cups delivers a result anyway
         if (OS=="WIN") {
             try{
-                fileSys.readFile(filename,'binary',file => {
-                    serialPorts.Printer.send(file,(resp) => typeof printername == 'function' && printername(resp));
+                fileSys.readFile(filename,(e,file) => {
+                    serialPorts.Printer.send(file.buffer,(resp) => typeof printername == 'function' && printername(resp));
                 })
                 //fileSys.writeFileSync('//localhost/'+printername, fileSys.readFileSync(filename));
                 exports.ESCPOS_LASTERROR = "data printed";
