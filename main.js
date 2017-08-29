@@ -82,11 +82,14 @@ var currentPrinter = list.options[list.selectedIndex].text;
         ctx.stroke();
         ctx.font = '10px sans-serif';
         ctx.fillText('Hello World',75,50);
-        document.body.appendChild(canvas);
+        //document.body.appendChild(canvas);
 
+    var fileName = 'c:\\Users\\bmc equip\\nw-sdk\\nw\\escposimage.jpg'; 
+    console.log('image fileName',fileName);
     var image = document.createElement('img');
         image.onload = () => { 
           console.log('loaded');
+          document.body.appendChild(image);
           Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,image,33,true,127));
           Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,'c:\\Users\\bmc equip\\nw-sdk\\nw\\escposimage.jpg',33,true,127));
           var sucess = Printer.ESCPOS_PRINT(currentPrinter);
@@ -94,7 +97,9 @@ var currentPrinter = list.options[list.selectedIndex].text;
                   alert(Printer.ESCPOS_LASTERROR);
           }
         }
-        image.src = canvas.toDataURL('image/png')           
+
+        image.src = "data:image/jpg;base64," + fs.readFileSync(fileName).toString("base64");
+        //image.src = canvas.toDataURL('image/png')           
 }
 
 function Test_Barcodeprint() {
