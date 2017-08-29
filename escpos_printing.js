@@ -47,6 +47,7 @@
 //=======================================================================================================================================================
 // MODULES "GLOBAL" SECTION
 var fileSys = require('fs');
+var operatingSys = require('os');
 
 //defaulting OS to whatever you like init function will detect appropriately
 
