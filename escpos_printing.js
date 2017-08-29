@@ -202,7 +202,7 @@ exports.append = function (value) {
 // only errorcheck by result of copy operation
 // sucess means the os has copied the file
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
-exports.ESCPOS_PRINT = function(printername) {
+exports.ESCPOS_PRINT = function(cB) {
 // we use tempdir as it should be available and read/writeble in all Systems
 
 var tempdir = operatingSys.tmpdir();
@@ -240,7 +240,8 @@ var foundprinter = false;
         ESCPOS_RESULT = ESCPOS_RESULT.replace("€",String.fromCharCode(128));
 // and just in case you forgot it add a final printit/newline
         ESCPOS_RESULT = ESCPOS_RESULT + String.fromCharCode(10);
-// write our content to the RAW printer file    
+// write our content to the RAW printer file 
+
         fileSys.appendFileSync(filename, ESCPOS_RESULT,'binary');
 
 //We are more or less printed so reinitialize our result string
@@ -249,30 +250,16 @@ var foundprinter = false;
 
 // finally use OS specific method to copy to printer or print it via cups lp implementation
 // Windows needs try catch , while cups delivers a result anyway
-        if (OS=="WIN") {
-            try{
-                fileSys.readFile(filename,(e,file) => {
-                    serialPorts.Printer.send(file.buffer,(resp) => typeof printername == 'function' && printername(resp));
-                })
-                //fileSys.writeFileSync('//localhost/'+printername, fileSys.readFileSync(filename));
-                exports.ESCPOS_LASTERROR = "data printed";
-                return true
-            }
-            catch(e) {
-                exports.ESCPOS_LASTERROR = "Error copying prt file : "+e.message;
-                return false;
-            }
-        }
 
-        if (OS=="LINUX") {
-            printcommand = "lp -d " + printername +" "+filename;            
-            exports.ESCPOS_LASTERROR =  doIt( printcommand,{encoding:'UTF-8'});
-            if (exports.ESCPOS_LASTERROR.indexOf("not found")>-1) {
-                return false;
-            }else{
-                return true;
-            }
+        try{
+            fileSys.readFile(filename,(e,file) => {
+                serialPorts.Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
+            })
         }
+        catch(e) {
+            typeof cB == 'function' && cB({ error: "Error copying prt file : "+e.message });
+        }
+        
     
 }
 //=======================================================================================================================================================
