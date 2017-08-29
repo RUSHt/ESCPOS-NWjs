@@ -90,6 +90,8 @@ var currentPrinter = list.options[list.selectedIndex].text;
         image.onload = () => { 
           console.log('loaded');
           document.body.appendChild(image);
+          console.log('image.width',image.width);
+          console.log('image.height',image.height);
           Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,image,33,true,127));
           Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,'c:\\Users\\bmc equip\\nw-sdk\\nw\\escposimage.jpg',33,true,127));
           var sucess = Printer.ESCPOS_PRINT(currentPrinter);
