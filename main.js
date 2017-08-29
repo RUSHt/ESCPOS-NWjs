@@ -92,10 +92,8 @@ function Test_Imageprint() {
 
           Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
 
-          var sucess = Printer.ESCPOS_PRINT(() => console.log('ESCPOS_PRINT',resp));
-          if(!sucess){
-                  alert(Printer.ESCPOS_LASTERROR);
-          }
+          Printer.ESCPOS_PRINT(() => console.log('ESCPOS_PRINT',resp));
+
 }
 
 function Test_Barcodeprint() {
