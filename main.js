@@ -84,7 +84,7 @@ var currentPrinter = list.options[list.selectedIndex].text;
         ctx.rect(10,10,100,100);
         ctx.stroke();
         ctx.font = '40px sans-serif';
-        ctx.fillText('Hello World',125,30);
+        ctx.fillText('Hello World',125,60);
         document.body.appendChild(canvas);
 
     var fileName = 'c:\\Users\\bmc equip\\nw-sdk\\nw\\escposimage.jpg'; 
@@ -99,6 +99,8 @@ var currentPrinter = list.options[list.selectedIndex].text;
           Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
           
           Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,image,33,true,127));
+
+          Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
           //Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,fileName,33,true,127));
           var sucess = Printer.ESCPOS_PRINT(() => console.log('ESCPOS_PRINT',resp));
           if(!sucess){
