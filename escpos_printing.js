@@ -363,6 +363,20 @@ exports.ESCPOS_CMD = {
 //IMGTHRESHOLD: INTEGER (1 to255 practical value is 127) used for simple b/w decision and as a threshold in the dithering part
 //-------------------------------------------------------------------------------------------------------------------------------------
 
+exports.appendCanvas = function(canvas,ESCPOS_IMGMODE = 33,ESCPOS_DITHER = true,ESCPOS_IMGTHRESHOLD = 127) {
+    if ( typeof ESCPOS_IMGMODE == 'object' ) {
+        ESCPOS_DITHER       = ESCPOS_IMGMODE.dither;
+        ESCPOS_IMGTHRESHOLD = ESCPOS_IMGMODE.threshold;
+        ESCPOS_IMGMODE      = ESCPOS_IMGMODE.mode;
+        if ( typeof ESCPOS_DITHER == 'function' ) {
+            cB = ESCPOS_DITHER;
+        }
+    }
+
+    ESCPOS_RESULT = ESCPOS_RESULT + exports.ESCPOS_IMAGEFILE(null,canvas,ESCPOS_IMGMODE,ESCPOS_DITHER,ESCPOS_IMGTHRESHOLD)
+    
+}
+
 exports.ESCPOS_IMAGEFILE = function (mothercontext,ESCPOS_FILENAME,ESCPOS_IMGMODE,ESCPOS_DITHER,ESCPOS_IMGTHRESHOLD) {
 
 if ( typeof ESCPOS_FILENAME == 'string' ) {
@@ -406,7 +420,7 @@ if ( typeof ESCPOS_FILENAME == 'string' ) {
 
 } else {
     switch ( ESCPOS_FILENAME.tagName ) {
-        
+
         case 'CANVAS':
 
         ESCPOS_canvas = ESCPOS_FILENAME;
