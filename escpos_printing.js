@@ -252,7 +252,7 @@ var foundprinter = false;
         if (OS=="WIN") {
             try{
                 fileSys.readFile(filename,'binary',file => {
-                    serialPorts.Printer.send(file.buffer,(resp) => typeof printername == 'function' && printername(resp));
+                    serialPorts.Printer.send(file,(resp) => typeof printername == 'function' && printername(resp));
                 })
                 //fileSys.writeFileSync('//localhost/'+printername, fileSys.readFileSync(filename));
                 exports.ESCPOS_LASTERROR = "data printed";
