@@ -59,8 +59,8 @@ function Test_print() {
            Printer.append("This is a line after 125 motion units \n");           
            Printer.append(Printer.ESCPOS_CMD.FEEDLINES_ANDPRINT(5));
            Printer.append("This is the end after 5 lines \nand cutting off after 100 Units\n");           
-           //Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
-           Printer.append(Printer.ESCPOS_CMD.CUT_FULL);
+           Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
+           //Printer.append(Printer.ESCPOS_CMD.CUT_FULL);
            
            
 
