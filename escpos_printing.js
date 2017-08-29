@@ -49,20 +49,7 @@
 var fileSys = require('fs');
 var operatingSys = require('os');
 
-var serialPorts = [
-    { com: 'COM8', device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
-]
-    
-    serialPorts.forEach(port => {
-        chrome.serial.connect(port.com,(resp) => {
-            port.connected = resp;
-            serialPorts[port.device] = port;
-            serialPorts[resp.connectionId] = port;
-            port.send = (buffer,cB) => {
-                chrome.serial.send(resp.connectionId,buffer,(resp) => cB(resp));
-            }
-        });       
-    })
+var serialPorts;
 
 //defaulting OS to whatever you like init function will detect appropriately
 
@@ -90,13 +77,28 @@ var Printer; // will be passed in on init.
 // Initialitiation of Output and printerlist
 // should be called before every use because the require will cache code AND values
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
-exports.ESCPOS_INIT = function  () {
+exports.ESCPOS_INIT = function  (port) {
  
 var listCommand = "";
 var listResult = "";
 var listResultLines = [];
 var listLineParts = [];
 var detailParts = [];
+
+serialPorts = [
+    { com: port, device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
+]
+    
+serialPorts.forEach(port => {
+    chrome.serial.connect(port.com,(resp) => {
+        port.connected = resp;
+        serialPorts[port.device] = port;
+        serialPorts[resp.connectionId] = port;
+        port.send = (buffer,cB) => {
+            chrome.serial.send(resp.connectionId,buffer,(resp) => cB(resp));
+        }
+    });       
+})
  
 // resetting the output to empty string
 ESCPOS_RESULT = "";

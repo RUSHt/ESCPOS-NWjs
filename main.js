@@ -2,7 +2,7 @@ Printer = require('./escpos_printing.js');
 
 function init() {
 
-Printer.ESCPOS_INIT();
+Printer.ESCPOS_INIT('COM8');
 
 }
 function Test_print() {
