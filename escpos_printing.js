@@ -1,5 +1,6 @@
 //======================================================================================================================================================
 // escpos_printing.js Version: 1.0.0 by Thomas Höbelt
+// Modified to Support chrome.serial in NW.js
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 // This is my implementation of ESCPOS Printing from within node nw.js applications
 // ADVANTAGE nothing else needed i.e. no dependencies except built in modules:
@@ -46,10 +47,9 @@
 //=======================================================================================================================================================
 // MODULES "GLOBAL" SECTION
 var fileSys = require('fs');
-var operatingSys = require('os');
-var doIt = require("child_process").execSync;
+
 //defaulting OS to whatever you like init function will detect appropriately
-var OS = "WIN";
+
 
 var serialPorts = [
     { com: 'COM8', device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
@@ -100,83 +100,9 @@ ESCPOS_RESULT = "";
 ESCPOS_LASTERROR = "";
 // listing all relevant printers on Windows they need to be shared printers
 
-// first detect OS defaulting it to whatever you like Win in this case
-var osOriginal = operatingSys.platform();
-switch (osOriginal) {
-		case "win32":
-			OS = "WIN";
-			break;
-		case "win64":
-			OS = "WIN";
-			break;
-		case "darwin":
-			OS = "OSX";
-			break;
-		case "linux":
-			OS = "LINUX";
-			break;
-		default:
-			OS = "WIN";
-}
 // resetting the printer-array;
 exports.ESCPOS_PRINTERLIST.length = 0;
 
-// running os specific command to detect printers i.e. net view on Windows lp on linux like
-// using ifs here because if we vcant detect on which system we run its not worth the whole thing so no case/default scheme
-if (OS=="WIN") {
-// old Version using cmd and net view
-//			// this will return all network resources including printers
-//            var listCommand = 'net view \\\\localhost';
-//            // run the command and collect the output
-//			var listResult = doIt( listCommand,{encoding:'utf8'});
-//            // split output into single lines
-//			listResultLines = listResult.split("\n");
-//            // check items i.e. lines for the printer Keyword
-//			for(var d=0;d<listResultLines.length;d++){
-//				if (listResultLines[d].indexOf(OS_PRINTERKEYWORD)>0) {
-//                    listLineParts = listResultLines[d].split(OS_PRINTERKEYWORD);
-//                    //name is the first part so push it to printerlist
-//					exports.ESCPOS_PRINTERLIST.push(listLineParts[0].trim());
-//                }
-//			}   
-
-// new  Version using powershell (always in english ? )
-        listCommand = "powershell  get-WmiObject Win32_Printer";
-        // collect result
-        var listResult = doIt( listCommand,{encoding:'ascii'});
-        //plit into single lines
-        listResultLines = listResult.split("\n");
-			for(var d=0;d<listResultLines.length;d++){
-                // look for the keyword ShareName
-				if (listResultLines[d].indexOf("ShareName")>-1) {
-                    //split by colon    
-                    listLineParts = listResultLines[d].split(":");
-					if (listLineParts[1].trim().length >0) {
-                        // and push if the right part holds a share/Printer Name
-                        exports.ESCPOS_PRINTERLIST.push(listLineParts[1].trim());                    }
-                }
-			}   
-
-        }
-
-if (OS=="LINUX") {
-			// better than win here, list printers only
-            var listCommand = "lpstat -v";
-            //run the command and collect output
-			var listResult = doIt( listCommand,{encoding:'utf8'});
-			 // split output into single lines
-			listResultLines = listResult.split("\n");
-			for(var d=0;d<listResultLines.length;d++){
-				// lpstat delivers "device for PRINTERNAME : ADDITIONAL info"
-                // so first check for colon (:) then split by the word for
-                if (listResultLines[d].indexOf(":")>0) {
-                    listLineParts = listResultLines[d].split(":");
-					detailParts = listLineParts[0].split("for");
-                    //name is the second part so push it
-                    exports.ESCPOS_PRINTERLIST.push(detailParts[1].trim());
-                }
-			}            
-        }
 }
 //=======================================================================================================================================================
 
@@ -211,18 +137,6 @@ var filename = tempdir + "/escpos.prt";
 var printcommand = ""; 
 var printresult = "";
 var foundprinter = false;
-        /*
-        for (p=0;p<exports.ESCPOS_PRINTERLIST.length;p++) {
-                if (exports.ESCPOS_PRINTERLIST[p]==printername) {
-                        foundprinter = true;
-                }
-        }
-
-        if (!foundprinter) {
-            exports.ESCPOS_LASTERROR = "Printer "+printername+" not found";
-            return false;
-        }
-        */
 
 // delete the last version of our RAW file
 
@@ -245,9 +159,9 @@ var foundprinter = false;
         fileSys.appendFileSync(filename, ESCPOS_RESULT,'binary');
 
 //We are more or less printed so reinitialize our result string
+
         ESCPOS_RESULT = "";
         
-
 // finally use OS specific method to copy to printer or print it via cups lp implementation
 // Windows needs try catch , while cups delivers a result anyway
 
