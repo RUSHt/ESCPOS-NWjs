@@ -385,8 +385,6 @@ if ( typeof ESCPOS_FILENAME == 'string' ) {
     var ESCPOS_extension = ESCPOS_FILENAME.substr(ESCPOS_FILENAME.lastIndexOf('.')+1)
     switch (ESCPOS_extension.toUpperCase()) {
         case "JPG" :
-            var ESCPOS_mimestring = "data:image/jpeg;base64,";
-            break;
         case "JPEG" :
             var ESCPOS_mimestring = "data:image/jpeg;base64,";
             break;

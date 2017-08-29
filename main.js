@@ -71,8 +71,6 @@ function Test_print() {
 }
 
 function Test_Imageprint() {
-var list = document.getElementById("printerlist")
-var currentPrinter = list.options[list.selectedIndex].text;
 
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');  
@@ -87,32 +85,17 @@ var currentPrinter = list.options[list.selectedIndex].text;
         ctx.fillText('Hello World',125,60);
         document.body.appendChild(canvas);
 
-    //var fileName = 'c:\\Users\\bmc equip\\nw-sdk\\nw\\escposimage.jpg'; 
-    //console.log('image fileName',fileName);
-    //var image = document.createElement('img');
-    //    image.onload = () => { 
-    //      console.log('loaded');
-    //      document.body.appendChild(image);
-    //      console.log('image.width',image.width);
-    //      console.log('image.height',image.height);
-          //return;
+
           Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
           
-          Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,canvas,33,true,127));
+          Printer.appendCanvas(canvas);
 
           Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
-          //Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,fileName,33,true,127));
+
           var sucess = Printer.ESCPOS_PRINT(() => console.log('ESCPOS_PRINT',resp));
           if(!sucess){
                   alert(Printer.ESCPOS_LASTERROR);
           }
-    //    }
-
-     //   image.src = canvas.toDataURL('image/jpeg');
-
-        //image.src = "data:image/jpg;base64," + fs.readFileSync(fileName).toString("base64");
-        //image.src = canvas.toDataURL('image/png')  
-     //   console.log('image.src',image.src);         
 }
 
 function Test_Barcodeprint() {
