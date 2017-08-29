@@ -80,7 +80,6 @@ var currentPrinter = list.options[list.selectedIndex].text;
         canvas.height = 161;
         ctx.rect(10,10,50,50);
         ctx.stroke();
-        ctx.fillStyle = 'black';
         ctx.font = '20px sans-serif';
         ctx.fillText('Hello World',75,20);
         //document.body.appendChild(canvas);
