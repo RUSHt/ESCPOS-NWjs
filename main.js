@@ -87,14 +87,14 @@ var currentPrinter = list.options[list.selectedIndex].text;
         ctx.fillText('Hello World',125,60);
         document.body.appendChild(canvas);
 
-    var fileName = 'c:\\Users\\bmc equip\\nw-sdk\\nw\\escposimage.jpg'; 
-    console.log('image fileName',fileName);
-    var image = document.createElement('img');
-        image.onload = () => { 
-          console.log('loaded');
-          document.body.appendChild(image);
-          console.log('image.width',image.width);
-          console.log('image.height',image.height);
+    //var fileName = 'c:\\Users\\bmc equip\\nw-sdk\\nw\\escposimage.jpg'; 
+    //console.log('image fileName',fileName);
+    //var image = document.createElement('img');
+    //    image.onload = () => { 
+    //      console.log('loaded');
+    //      document.body.appendChild(image);
+    //      console.log('image.width',image.width);
+    //      console.log('image.height',image.height);
           //return;
           Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
           
@@ -106,13 +106,13 @@ var currentPrinter = list.options[list.selectedIndex].text;
           if(!sucess){
                   alert(Printer.ESCPOS_LASTERROR);
           }
-        }
+    //    }
 
-        image.src = canvas.toDataURL('image/jpeg');
+     //   image.src = canvas.toDataURL('image/jpeg');
 
         //image.src = "data:image/jpg;base64," + fs.readFileSync(fileName).toString("base64");
         //image.src = canvas.toDataURL('image/png')  
-        console.log('image.src',image.src);         
+     //   console.log('image.src',image.src);         
 }
 
 function Test_Barcodeprint() {
