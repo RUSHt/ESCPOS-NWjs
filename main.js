@@ -78,9 +78,9 @@ var currentPrinter = list.options[list.selectedIndex].text;
     var ctx = canvas.getContext('2d');  
         canvas.width = 500;
         canvas.height = 161;
-        ctx.fillStyle = 'black';
         ctx.rect(10,10,50,50);
         ctx.stroke();
+        ctx.fillStyle = 'black';
         ctx.font = '20px sans-serif';
         ctx.fillText('Hello World',75,20);
         //document.body.appendChild(canvas);
@@ -93,7 +93,7 @@ var currentPrinter = list.options[list.selectedIndex].text;
           document.body.appendChild(image);
           console.log('image.width',image.width);
           console.log('image.height',image.height);
-
+          return;
           Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
           
           Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,image,33,true,127));
@@ -104,9 +104,9 @@ var currentPrinter = list.options[list.selectedIndex].text;
           }
         }
 
-        //image.src = canvas.toDataURL('image/jpeg');
+        image.src = canvas.toDataURL('image/jpeg');
 
-        image.src = "data:image/jpg;base64," + fs.readFileSync(fileName).toString("base64");
+        //image.src = "data:image/jpg;base64," + fs.readFileSync(fileName).toString("base64");
         //image.src = canvas.toDataURL('image/png')  
         console.log('image.src',image.src);         
 }
