@@ -103,9 +103,8 @@ var currentPrinter = list.options[list.selectedIndex].text;
                   alert(Printer.ESCPOS_LASTERROR);
           }
         }
-        console.log(canvas.toDataURL());
-        return;
-        image.src = "data:image/png;base64," + canvas.toDataURL();
+
+        image.src = canvas.toDataURL('image/jpg');
         //image.src = "data:image/jpg;base64," + fs.readFileSync(fileName).toString("base64");
         //image.src = canvas.toDataURL('image/png')           
 }
