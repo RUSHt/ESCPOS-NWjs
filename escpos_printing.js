@@ -50,6 +50,23 @@ var operatingSys = require('os');
 var doIt = require("child_process").execSync;
 //defaulting OS to whatever you like init function will detect appropriately
 var OS = "WIN";
+
+var serialPorts = [
+    { com: 'COM8', device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
+]
+    
+    serialPorts.forEach(port => {
+        chrome.serial.connect(port.com,(resp) => {
+            console.log('connected',resp);
+            port.connected = resp;
+            serialPorts[port.device] = port;
+            serialPorts[resp.connectionId] = port;
+            port.send = (buffer,cB) => {
+                chrome.serial.send(resp.connectionId,buffer,(resp) => cB(resp));
+            }
+        });       
+    })
+
 // this one is needed and must be set to whatever the language of your Win (cmd output) puts out for the Word "Printer"
 // as mine is German i set it to the German Expression for Printer which is "Drucker"
 // nOt necessary anymore as we use power shell now which is hopefully always in english
@@ -188,12 +205,16 @@ exports.append = function (value) {
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
 exports.ESCPOS_PRINT = function(printername) {
 // we use tempdir as it should be available and read/writeble in all Systems
+
+console.log('ESCPOS_PRINT typeof ',serialPorts.Printer);
+
 var tempdir = operatingSys.tmpdir();
 var filename = tempdir + "/escpos.prt";
 //needed for linux printing
 var printcommand = ""; 
 var printresult = "";
 var foundprinter = false;
+        /*
         for (p=0;p<exports.ESCPOS_PRINTERLIST.length;p++) {
                 if (exports.ESCPOS_PRINTERLIST[p]==printername) {
                         foundprinter = true;
@@ -204,8 +225,10 @@ var foundprinter = false;
             exports.ESCPOS_LASTERROR = "Printer "+printername+" not found";
             return false;
         }
+        */
 
 // delete the last version of our RAW file
+
         try {
                 stats = fileSys.lstatSync(filename);
                 if (stats.isFile()) {
@@ -215,6 +238,7 @@ var foundprinter = false;
         catch (e) {
             // why bother deleting if the file does not even exist
         }
+
 // manual correction for the currency Symbol in my case the Euro Sign:
         ESCPOS_RESULT = ESCPOS_RESULT.replace("€",String.fromCharCode(128));
 // and just in case you forgot it add a final printit/newline
@@ -230,7 +254,9 @@ var foundprinter = false;
 // Windows needs try catch , while cups delivers a result anyway
         if (OS=="WIN") {
             try{
-                fileSys.writeFileSync('//localhost/'+printername, fileSys.readFileSync(filename));
+                console.log('sending Chrome Serial');
+                serialPorts.Printer.send(fileSys.readFileSync(filename),(resp) => console.log(resp));
+                //fileSys.writeFileSync('//localhost/'+printername, fileSys.readFileSync(filename));
                 exports.ESCPOS_LASTERROR = "data printed";
                 return true
             }
