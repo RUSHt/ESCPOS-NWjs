@@ -63,7 +63,7 @@ function Test_print() {
            
            
 
-        var sucess = Printer.ESCPOS_PRINT(currentPrinter);
+        var sucess = Printer.ESCPOS_PRINT();
         if(!sucess){
                 alert(Printer.ESCPOS_LASTERROR);
         }           
