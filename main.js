@@ -1,7 +1,7 @@
 Printer = require('./escpos_printing.js');
 fs = require('fs');
 function init() {
-alert("Welcome to a Demo of ESCPOS");
+
 Printer.ESCPOS_INIT();
 
 
@@ -63,7 +63,7 @@ function Test_print() {
            
            
 
-        var sucess = Printer.ESCPOS_PRINT();
+        var sucess = Printer.ESCPOS_PRINT((resp) => { console.log(resp)});
         if(!sucess){
                 alert(Printer.ESCPOS_LASTERROR);
         }           
