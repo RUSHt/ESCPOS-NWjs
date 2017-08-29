@@ -79,31 +79,32 @@ var Printer; // will be passed in on init.
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
 exports.ESCPOS_INIT = function  (port) {
  
-var listCommand = "";
-var listResult = "";
-var listResultLines = [];
-var listLineParts = [];
-var detailParts = [];
-
-serialPorts = [
-    { com: port, device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
-]
-    
-serialPorts.forEach(port => {
-    chrome.serial.connect(port.com,(resp) => {
-        port.connected = resp;
-        serialPorts[port.device] = port;
-        serialPorts[resp.connectionId] = port;
-        port.send = (buffer,cB) => {
-            chrome.serial.send(resp.connectionId,buffer,(resp) => cB(resp));
-        }
-    });       
-})
- 
+    var listCommand = "";
+    var listResult = "";
+    var listResultLines = [];
+    var listLineParts = [];
+    var detailParts = []; 
 // resetting the output to empty string
 ESCPOS_RESULT = "";
 // and the Errorstring
 ESCPOS_LASTERROR = "";
+
+    if ( port ) {
+        serialPorts = [
+            { com: port, device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
+        ]
+            
+        serialPorts.forEach(port => {
+            chrome.serial.connect(port.com,(resp) => {
+                port.connected = resp;
+                serialPorts[port.device] = port;
+                serialPorts[resp.connectionId] = port;
+                port.send = (buffer,cB) => {
+                    chrome.serial.send(resp.connectionId,buffer,(resp) => cB(resp));
+                }
+            });       
+        })
+    }
 
 }
 //=======================================================================================================================================================
