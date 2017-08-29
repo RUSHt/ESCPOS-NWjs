@@ -8,7 +8,7 @@
     "ESCPOS",
     "ad-min"
   ],
-  "main": "index.html",
+  "main": "print.html",
   "window": {
     "width": 800,
     "height": 600,
