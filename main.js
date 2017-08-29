@@ -21,9 +21,9 @@ for (p=0;p<Printer.ESCPOS_PRINTERLIST.length;p++) {
 
 
 function Test_print() {
-var list = document.getElementById("printerlist")
-var currentPrinter = list.options[list.selectedIndex].text;
-
+//var list = document.getElementById("printerlist")
+//var currentPrinter = list.options[list.selectedIndex].text;
+          console.log('Test_print');
 
            Printer.ESCPOS_INIT();
            Printer.append(Printer.ESCPOS_CMD.RESET);
