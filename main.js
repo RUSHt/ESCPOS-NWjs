@@ -19,7 +19,7 @@ function init() {
 
 Printer.ESCPOS_INIT(SerialPorts.Printer);
 
-
+}
 function Test_print() {
 //var list = document.getElementById("printerlist")
 //var currentPrinter = list.options[list.selectedIndex].text;
