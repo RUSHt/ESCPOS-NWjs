@@ -105,8 +105,10 @@ var currentPrinter = list.options[list.selectedIndex].text;
         }
 
         image.src = canvas.toDataURL('image/jpg');
+
         //image.src = "data:image/jpg;base64," + fs.readFileSync(fileName).toString("base64");
-        //image.src = canvas.toDataURL('image/png')           
+        //image.src = canvas.toDataURL('image/png')  
+        console.log('image.src',image.src);         
 }
 
 function Test_Barcodeprint() {
