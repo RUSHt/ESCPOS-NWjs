@@ -57,7 +57,6 @@ var serialPorts = [
     
     serialPorts.forEach(port => {
         chrome.serial.connect(port.com,(resp) => {
-            console.log('connected',resp);
             port.connected = resp;
             serialPorts[port.device] = port;
             serialPorts[resp.connectionId] = port;
@@ -206,8 +205,6 @@ exports.append = function (value) {
 exports.ESCPOS_PRINT = function(printername) {
 // we use tempdir as it should be available and read/writeble in all Systems
 
-console.log('ESCPOS_PRINT typeof ',serialPorts.Printer);
-
 var tempdir = operatingSys.tmpdir();
 var filename = tempdir + "/escpos.prt";
 //needed for linux printing
@@ -254,7 +251,7 @@ var foundprinter = false;
 // Windows needs try catch , while cups delivers a result anyway
         if (OS=="WIN") {
             try{
-                console.log('sending Chrome Serial');
+                
                 serialPorts.Printer.send(fileSys.readFileSync(filename).buffer,(resp) => console.log(resp));
                 //fileSys.writeFileSync('//localhost/'+printername, fileSys.readFileSync(filename));
                 exports.ESCPOS_LASTERROR = "data printed";
@@ -367,38 +364,47 @@ exports.ESCPOS_CMD = {
 
 exports.ESCPOS_IMAGEFILE = function (mothercontext,ESCPOS_FILENAME,ESCPOS_IMGMODE,ESCPOS_DITHER,ESCPOS_IMGTHRESHOLD) {
 
+if ( typeof ESCPOS_FILENAME == 'string' ) {
+
 // as we are dealing with a canvas we need to prefix it with the correspondant mime-string
-var ESCPOS_extension = ESCPOS_FILENAME.substr(ESCPOS_FILENAME.lastIndexOf('.')+1)
-switch (ESCPOS_extension.toUpperCase()) {
-    case "JPG" :
-        var ESCPOS_mimestring = "data:image/jpeg;base64,";
-        break;
-    case "JPEG" :
-        var ESCPOS_mimestring = "data:image/jpeg;base64,";
-        break;
-    case "BMP" :
-        var ESCPOS_mimestring = "data:image/bmp;base64,";
-        break;
-    case "GIF" :
-        var ESCPOS_mimestring = "data:image/gif;base64,";
-        break;
-    case "PNG" :
-        var ESCPOS_mimestring = "data:image/png;base64,";
-        break;
-    case "SVG" :
-        var ESCPOS_mimestring = "data:image/svg+xml;base64,";
-        break;
-    default :
-        var ESCPOS_mimestring = "data:image/jpeg;base64,";
-}        
-// now we load the file synchronously !!! and draw it to an canvas of the calling i.e. mother context
-var ESCPOS_imagesource = new mothercontext.Image();
-        ESCPOS_imagesource.src = ESCPOS_mimestring + fileSys.readFileSync(ESCPOS_FILENAME).toString("base64");
-var ESCPOS_canvas = mothercontext.document.createElement('canvas');
-        ESCPOS_canvas.setAttribute('width', ESCPOS_imagesource.width);
-        ESCPOS_canvas.setAttribute('height', ESCPOS_imagesource.height);
-var ESCPOS_context = ESCPOS_canvas.getContext('2d');
-        ESCPOS_context.drawImage(ESCPOS_imagesource,0,0);         
+    var ESCPOS_extension = ESCPOS_FILENAME.substr(ESCPOS_FILENAME.lastIndexOf('.')+1)
+    switch (ESCPOS_extension.toUpperCase()) {
+        case "JPG" :
+            var ESCPOS_mimestring = "data:image/jpeg;base64,";
+            break;
+        case "JPEG" :
+            var ESCPOS_mimestring = "data:image/jpeg;base64,";
+            break;
+        case "BMP" :
+            var ESCPOS_mimestring = "data:image/bmp;base64,";
+            break;
+        case "GIF" :
+            var ESCPOS_mimestring = "data:image/gif;base64,";
+            break;
+        case "PNG" :
+            var ESCPOS_mimestring = "data:image/png;base64,";
+            break;
+        case "SVG" :
+            var ESCPOS_mimestring = "data:image/svg+xml;base64,";
+            break;
+        default :
+            var ESCPOS_mimestring = "data:image/jpeg;base64,";
+    }  
+
+
+    // now we load the file synchronously !!! and draw it to an canvas of the calling i.e. mother context
+    var ESCPOS_imagesource = new mothercontext.Image();
+            ESCPOS_imagesource.src = ESCPOS_mimestring + fileSys.readFileSync(ESCPOS_FILENAME).toString("base64");
+    var ESCPOS_canvas = mothercontext.document.createElement('canvas');
+            ESCPOS_canvas.setAttribute('width', ESCPOS_imagesource.width);
+            ESCPOS_canvas.setAttribute('height', ESCPOS_imagesource.height);
+    var ESCPOS_context = ESCPOS_canvas.getContext('2d');
+            ESCPOS_context.drawImage(ESCPOS_imagesource,0,0);  
+} else {
+    // IMAGE_SOURCE is CANVAS
+    ESCPOS_canvas = ESCPOS_FILENAME;
+    ESCPOS_context = ESCPOS_canvas.getContext('2d');
+}       
 
 // for the actual processing we need to split the image into lines of the given ( 8 or 24 pixels) height i.e. vertical slizesize
 // all the fuss is necessary because imagedata from canvas is supplied in rows of single pixels
