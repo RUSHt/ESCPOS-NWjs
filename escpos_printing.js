@@ -404,6 +404,7 @@ if ( typeof ESCPOS_FILENAME == 'string' ) {
     // IMAGE_SOURCE is CANVAS
     ESCPOS_canvas = ESCPOS_FILENAME;
     ESCPOS_context = ESCPOS_canvas.getContext('2d');
+    ESCPOS_imagesource = { width: ESCPOS_canvas.width, height: ESCPOS_canvas.height }
 }       
 
 // for the actual processing we need to split the image into lines of the given ( 8 or 24 pixels) height i.e. vertical slizesize
