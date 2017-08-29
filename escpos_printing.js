@@ -405,6 +405,29 @@ if ( typeof ESCPOS_FILENAME == 'string' ) {
         ESCPOS_imagesource.src = ESCPOS_mimestring + fileSys.readFileSync(ESCPOS_FILENAME).toString("base64");
 
 } else {
+    switch ( ESCPOS_FILENAME.tagName ) {
+        
+        case 'CANVAS':
+
+        ESCPOS_canvas = ESCPOS_FILENAME;
+        ESCPOS_context = ESCPOS_canvas.getContext('2d');
+        ESCPOS_imagesource = { width: ESCPOS_canvas.width, height: ESCPOS_canvas.height }
+        
+        break;
+        
+        case 'IMG':
+
+        var ESCPOS_imagesource = ESCPOS_FILENAME;
+        var ESCPOS_canvas = mothercontext.document.createElement('canvas');
+        var ESCPOS_context = ESCPOS_canvas.getContext('2d');
+            ESCPOS_canvas.width = ESCPOS_imagesource.width;
+            ESCPOS_canvas.height = ESCPOS_imagesource.height;    
+            //ESCPOS_canvas.setAttribute('width', ESCPOS_imagesource.width);
+            //ESCPOS_canvas.setAttribute('height', ESCPOS_imagesource.height);
+            ESCPOS_context.drawImage(ESCPOS_imagesource,0,0);  
+        
+        break;
+    }
     // ESCPOS_FILENAME is CANVAS
     /*
     ESCPOS_canvas = ESCPOS_FILENAME;
@@ -412,14 +435,7 @@ if ( typeof ESCPOS_FILENAME == 'string' ) {
     ESCPOS_imagesource = { width: ESCPOS_canvas.width, height: ESCPOS_canvas.height }
     */
     // ESCPOS_FILENAME is IMG
-    var ESCPOS_imagesource = ESCPOS_FILENAME;
-    var ESCPOS_canvas = mothercontext.document.createElement('canvas');
-    var ESCPOS_context = ESCPOS_canvas.getContext('2d');
-        ESCPOS_canvas.width = ESCPOS_imagesource.width;
-        ESCPOS_canvas.height = ESCPOS_imagesource.height;    
-        //ESCPOS_canvas.setAttribute('width', ESCPOS_imagesource.width);
-        //ESCPOS_canvas.setAttribute('height', ESCPOS_imagesource.height);
-        ESCPOS_context.drawImage(ESCPOS_imagesource,0,0);      
+    
 }       
 
 
