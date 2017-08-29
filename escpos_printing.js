@@ -394,18 +394,23 @@ if ( typeof ESCPOS_FILENAME == 'string' ) {
 
     // now we load the file synchronously !!! and draw it to an canvas of the calling i.e. mother context
     var ESCPOS_imagesource = new mothercontext.Image();
-            ESCPOS_imagesource.src = ESCPOS_mimestring + fileSys.readFileSync(ESCPOS_FILENAME).toString("base64");
-    var ESCPOS_canvas = mothercontext.document.createElement('canvas');
-            ESCPOS_canvas.setAttribute('width', ESCPOS_imagesource.width);
-            ESCPOS_canvas.setAttribute('height', ESCPOS_imagesource.height);
-    var ESCPOS_context = ESCPOS_canvas.getContext('2d');
-            ESCPOS_context.drawImage(ESCPOS_imagesource,0,0);  
+        ESCPOS_imagesource.src = ESCPOS_mimestring + fileSys.readFileSync(ESCPOS_FILENAME).toString("base64");
 } else {
-    // IMAGE_SOURCE is CANVAS
+    // ESCPOS_FILENAME is CANVAS
+    /*
     ESCPOS_canvas = ESCPOS_FILENAME;
     ESCPOS_context = ESCPOS_canvas.getContext('2d');
     ESCPOS_imagesource = { width: ESCPOS_canvas.width, height: ESCPOS_canvas.height }
+    */
+    // ESCPOS_FILENAME is IMG
+    var ESCPOS_imagesource = ESCPOS_FILENAME;
 }       
+
+    var ESCPOS_canvas = mothercontext.document.createElement('canvas');
+        ESCPOS_canvas.setAttribute('width', ESCPOS_imagesource.width);
+        ESCPOS_canvas.setAttribute('height', ESCPOS_imagesource.height);
+    var ESCPOS_context = ESCPOS_canvas.getContext('2d');
+            ESCPOS_context.drawImage(ESCPOS_imagesource,0,0);  
 
 // for the actual processing we need to split the image into lines of the given ( 8 or 24 pixels) height i.e. vertical slizesize
 // all the fuss is necessary because imagedata from canvas is supplied in rows of single pixels
