@@ -93,7 +93,10 @@ var currentPrinter = list.options[list.selectedIndex].text;
           document.body.appendChild(image);
           console.log('image.width',image.width);
           console.log('image.height',image.height);
-          Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,image,33,false,127));
+
+          Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
+          
+          Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,image,33,true,127));
           //Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,fileName,33,true,127));
           var sucess = Printer.ESCPOS_PRINT(() => console.log('ESCPOS_PRINT',resp));
           if(!sucess){
