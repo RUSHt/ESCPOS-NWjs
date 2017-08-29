@@ -1,23 +1,23 @@
 Printer = require('./escpos_printing.js');
-fs = require('fs');
+
+var serialPorts = [
+    { com: 'COM8', device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
+]
+    
+    serialPorts.forEach(port => {
+        chrome.serial.connect(port.com,(resp) => {
+            port.connected = resp;
+            serialPorts[port.device] = port;
+            serialPorts[resp.connectionId] = port;
+            port.send = (buffer,cB) => {
+                chrome.serial.send(resp.connectionId,buffer,(resp) => cB(resp));
+            }
+        });       
+    })
+
 function init() {
 
-Printer.ESCPOS_INIT();
-
-
-var printerList = document.getElementById('printerlist');
-printerList.remove(0);
-var entry = document.createElement('option');
-entry.text = "select Printer";
-printerList.add(entry);
-
-for (p=0;p<Printer.ESCPOS_PRINTERLIST.length;p++) {
-		   var entry = document.createElement('option');
-		   entry.text = Printer.ESCPOS_PRINTERLIST[p];
-		   printerList.add(entry);
-        }
-
-}
+Printer.ESCPOS_INIT(SerialPorts.Printer);
 
 
 function Test_print() {
@@ -84,7 +84,6 @@ function Test_Imageprint() {
         ctx.font = '40px sans-serif';
         ctx.fillText('Hello World',125,60);
         document.body.appendChild(canvas);
-
 
           Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
           
