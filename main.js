@@ -77,10 +77,11 @@ var currentPrinter = list.options[list.selectedIndex].text;
     var ctx = canvas.getContext('2d');  
         canvas.width = 400;
         canvas.height = 100;
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = 'black';
         ctx.rect(10,10,50,50);
+        ctx.stroke;
         ctx.font = '10px sans-serif';
-        ctx.fillText('Hello World',5,15);
+        ctx.fillText('Hello World',75,50);
         document.body.appendChild(canvas);
 
     var image = document.createElement('img');
