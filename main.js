@@ -58,7 +58,7 @@ function Test_print() {
            Printer.append(Printer.ESCPOS_CMD.FEEDUNITS_ANDPRINT(125));
            Printer.append("This is a line after 125 motion units \n");           
            Printer.append(Printer.ESCPOS_CMD.FEEDLINES_ANDPRINT(5));
-           Printer.append("This is the end after 5 lines \nand cutting off after 100 Units");           
+           Printer.append("This is the end after 5 lines \nand cutting off after 100 Units\n");           
            //Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
            Printer.append(Printer.ESCPOS_CMD.CUT_FULL);
            
@@ -93,8 +93,8 @@ var currentPrinter = list.options[list.selectedIndex].text;
           document.body.appendChild(image);
           console.log('image.width',image.width);
           console.log('image.height',image.height);
-          Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,image,33,true,127));
-          Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,'c:\\Users\\bmc equip\\nw-sdk\\nw\\escposimage.jpg',33,true,127));
+          //Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,image,33,true,127));
+          Printer.append(Printer.ESCPOS_IMAGEFILE(this.window,fileName,33,true,127));
           var sucess = Printer.ESCPOS_PRINT(currentPrinter);
           if(!sucess){
                   alert(Printer.ESCPOS_LASTERROR);
