@@ -15,10 +15,14 @@ function init() {
 }
 
 function Test_ImageFile() {
+  console.log('Test_ImageFile');
    var selected = $$('#image-list option')[$('#image-list').selectedIndex].innerHTML;
        fs.readFile('images/'+selected,(e,file) => {
+           console.log('error',e);
+           console.log('typeof d',typeof d);
+           console.log('got File',selected);
            var image = new Image();
-               image.onload = () => { printImage(image) }
+               image.onload = () => { console.log('loaded file',selected); printImage(image) }
                image.src = file;
        })
 };
@@ -27,7 +31,7 @@ function printImage(image) {
     console.log('print image');
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
-    
+
         canvas.width = image.width;
         canvas.height = image.height;
 
