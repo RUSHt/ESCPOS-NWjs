@@ -12,13 +12,15 @@ NW can take a few seconds to load on the first instance.
 
 The rep. consists of three main files..
 
-print.html 			- show you the Tests.
-main.js 			- device init() and test functions()
+print.html - landing page for tests.
 
-escpos_printing.js  - the ESCPOS library origionally produced by Thomas Höbelt.
+main.js - printer init() and test functions()
+
+escpos_printing.js - the ESCPOS library origionally produced by Thomas Höbelt (with modifications)
 
 Any questions just mail petera@rush.technology.
 
+******************************************************
 
 Origional Rep. README.md below;
 
