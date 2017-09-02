@@ -17,7 +17,7 @@ function init() {
 function Test_ImageFile() {
   console.log('Test_ImageFile');
    var selected = $$('#image-list option')[$('#image-list').selectedIndex].innerHTML;
-       fs.readFile('images/'+selected,(e,file) => {
+       fs.readFile('./images/'+selected,(e,file) => {
            console.log('error',e);
            console.log('typeof d',typeof d);
            console.log('got File',selected);
