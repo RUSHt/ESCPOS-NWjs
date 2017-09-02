@@ -8,8 +8,8 @@ fs = require('fs');
 function init() {
 
   Printer.ESCPOS_INIT('COM8');
+
   fs.readdir(global.__dirname+'\\images',(e,d) => {
-        console.log('d',d);
          $('#image-list').innerHTML = d.map(fileName => '<option>'+fileName+'</option>').join('');
   });
 }
@@ -34,12 +34,10 @@ function Test_ImageFile() {
       image.onload = () => printImage(image);
       image.src = mime + new Buffer(fs.readFileSync('images/'+selected)).toString('base64');
 
-      console.log('typeof image',typeof image);
-      console.log(image.src.substring(0,50));
 };
 
 function printImage(image) {
-    console.log('print image');
+    
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
 
@@ -62,21 +60,19 @@ function printImage(image) {
 
 function Test_ImageHelloWorld() {
 
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');  
+      canvas.width = 500;
+      canvas.height = 161;
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0,0,500,161);
+      ctx.fillStyle = 'black';
+      ctx.rect(10,10,100,100);
+      ctx.stroke();
+      ctx.font = '40px sans-serif';
+      ctx.fillText('Hello World',125,60);
 
-        Printer.ESCPOS_INIT();
-
-    var canvas = document.createElement('canvas');
-    var ctx = canvas.getContext('2d');  
-        canvas.width = 500;
-        canvas.height = 161;
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0,0,500,161);
-        ctx.fillStyle = 'black';
-        ctx.rect(10,10,100,100);
-        ctx.stroke();
-        ctx.font = '40px sans-serif';
-        ctx.fillText('Hello World',125,60);
-
+      Printer.ESCPOS_INIT();
 
       Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
         
@@ -122,6 +118,12 @@ function Test_QR() {
 
     Printer.ESCPOS_PRINT(resp => console.log('ESCPOS_PRINT',resp));        
 }
+
+
+// End Of PA Test_Printing..
+
+// Blwo are from Thomas Höbelt.
+
 
 function Test_print() {
 

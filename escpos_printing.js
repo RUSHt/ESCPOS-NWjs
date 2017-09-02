@@ -1,6 +1,6 @@
 //======================================================================================================================================================
 // escpos_printing.js Version: 1.0.0 by Thomas Höbelt
-// Modified to Support chrome.serial in NW.js
+// Modified to Support chrome.serial in NW.js (PA)
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 // This is my implementation of ESCPOS Printing from within node nw.js applications
 // ADVANTAGE nothing else needed i.e. no dependencies except built in modules:

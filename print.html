@@ -6,8 +6,9 @@
   <style>
   		* { font-family: sans-serif; }
   		.btn { background-color: rgba(12, 119, 212, 1); width: 100px; line-height: 2; color: white; text-align: center; float: right; } 
-  		label { width: 300px; margin-right: calc(100% - 300px); float: left; }
-  		label p:nth-child(1) { width: 200px; float: left; }
+  		label { width: 310px; margin-right: calc(100% - 310px); float: left; }
+  		label p:nth-child(1) { width: 200px; float: left; margin: 10px; margin-top: 20px; }
+  		label select { padding: 10px; margin-top: 13px; }
   </style>
  </head>
 <body onload="init()">
@@ -22,7 +23,7 @@
 		<p class="btn b" onclick="Test_ImageHelloWorld()">OK</p>
 	</label>	
 	<label>
-		<select id="image-list"></select>
+		<select id="image-list"><option>No Images</option></select>
 		<p class="btn b" onclick="Test_ImageFile()">OK</p>
 	</label>
 	<label>

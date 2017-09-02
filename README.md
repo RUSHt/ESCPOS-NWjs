@@ -1,6 +1,28 @@
-# ESCPOS-Printing-in-Node.js
+# ESC/POS in NW.js
 
-[![Join the chat at https://gitter.im/treh1966/ESCPOS-Printing-in-Node.js](https://badges.gitter.im/treh1966/ESCPOS-Printing-in-Node.js.svg)](https://gitter.im/treh1966/ESCPOS-Printing-in-Node.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+I have modified the origional to suppoet device interface via chrome.serial, and also to take a <canvas> DOM element and directly (ish) print from it.
+
+You will need a printer which is on a serial port.  In my case it is USB connected and then presented as COM8 by a Virtual Driver.  (COM8 is hard coded in main.js should you want to change it).
+
+You'll need to install nw.js from https://nwjs.io/, I suggest the SDK version so that you can see Chrome Dev tools.
+
+Once you have NW installed clone this rep. and copy contents into your NW folder.
+
+NW can take a few seconds to load on the first instance.
+
+The rep. consists of three main files..
+
+print.html 			- show you the Tests.
+main.js 			- device init() and test functions()
+
+escpos_printing.js  - the ESCPOS library origionally produced by Thomas Höbelt.
+
+Any questions just mail petera@rush.technology.
+
+
+Origional Rep. README.md below;
+
+
 This is my implementation of ESCPOS Printing from within node nw.js applications   
 This is a fully working demo project, the mere module is available at:  
 https://www.npmjs.com/package/pure-escpos  
