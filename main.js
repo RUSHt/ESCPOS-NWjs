@@ -18,9 +18,21 @@ function Test_ImageFile() {
   
   var selected = $$('#image-list option')[$('#image-list').selectedIndex].innerHTML;
 
+  var mime;
+
+  switch ( selected.split('.').pop().toLowerCase() ) {
+    case 'jpg': case 'jpeg': mime = "data:image/jpeg;base64,"; break;
+    case 'bmp': mime = "data:image/bmp;base64,"; break;
+    case 'gif': mime = "data:image/gif;base64,"; break;
+    case 'png': mime = "data:image/png;base64,"; break;
+    case 'svg': mime = "data:image/svg+xml;base64,"; break;
+    default:
+      return alert('Image type '+selected+' not supported');
+  }
+
   var image = document.createElement('img');
       image.onload = () => printImage(image);
-      image.src = new Buffer(fs.readFileSync('images/'+selected)).toString('base64');
+      image.src = mime + new Buffer(fs.readFileSync('images/'+selected)).toString('base64');
 
       console.log('typeof image',typeof image);
       console.log(image.src.substring(0,50));
