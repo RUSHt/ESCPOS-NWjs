@@ -5,17 +5,20 @@
   <script type="text/javascript" src="main.js"></script>
   <style>
   		* { font-family: sans-serif; }
-  		.btn { background-color: rgba(12, 119, 212, 1); width: 100px; line-height: 2; } 
+  		.btn { background-color: rgba(12, 119, 212, 1); width: 100px; line-height: 2; color: white; text-align: center; float: right; } 
+  		label { width: 300px; float: left; }
+  		label p:nth-child(1) { width: 200px; float: left; }
   </style>
  </head>
 <body onload="init()">
 	<h1>ESC/POS Printing from nw.js</h1>
 	<label>
-		Print Hello World Text
+		<p>Print Hello World Text</p>
 		<p class="btn b" onclick="printHello()">OK</p>
 	</label>
 	<label>
-		Print Hello World Image
+		<p>Print Hello World Image</p>
+		
 		<p class="btn b" onclick="printHello()">OK</p>
 	</label>	
 	<label>
@@ -23,11 +26,11 @@
 		<p class="btn b" onclick="printFileImage()">OK</p>
 	</label>
 	<label>
-		BarCode
+		<p>BarCode</p>
 		<p class="btn b" onclick="Test_Barcodeprint()">OK</p>
 	</label>
 	<label>
-		QR Code
+		<p>QR Code</p>
 		<p class="btn b" onclick="Test_QRprint()">OK</p>
 	</label>
 </body>
