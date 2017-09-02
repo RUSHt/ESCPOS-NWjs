@@ -20,9 +20,10 @@ function Test_ImageFile() {
 
   var image = document.createElement('img');
       image.onload = () => printImage(image);
-      image.src = fs.readFileSync('images/'+selected);
+      image.src = new Buffer(fs.readFileSync('images/'+selected)).toString('base64');
 
       console.log('typeof image',typeof image);
+      console.log(image.src.substring(0,50));
 };
 
 function printImage(image) {
