@@ -8,7 +8,8 @@ fs = require('fs');
 function init() {
 
   Printer.ESCPOS_INIT('COM8');
-  fs.readDir('images',(e,d) => {
+  fs.readdir('images',(e,d) => {
+        console.log('d',d);
          $('#image-list').innerHTML = d.map(fileName => '<option>'+fileName+'</option>').join('');
   });
 }
