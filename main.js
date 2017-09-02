@@ -13,10 +13,76 @@ function init() {
          $('#image-list').innerHTML = d.map(fileName => '<option>'+fileName+'</option>').join('');
   });
 }
+
+function Text_ImageFile() {
+   var selected = $$('#image-list')[$('#image-list').selectedIndex].innerHTML;
+      console.log('selected',selected);
+};
+
+function Test_ImageHelloWorld() {
+
+
+        Printer.ESCPOS_INIT();
+
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');  
+        canvas.width = 500;
+        canvas.height = 161;
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0,0,500,161);
+        ctx.fillStyle = 'black';
+        ctx.rect(10,10,100,100);
+        ctx.stroke();
+        ctx.font = '40px sans-serif';
+        ctx.fillText('Hello World',125,60);
+
+
+      Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
+        
+      Printer.appendCanvas(canvas);
+
+      Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
+
+      Printer.ESCPOS_PRINT(resp => console.log('ESCPOS_PRINT',resp));
+
+}
+
+function Text_TextHelloWorld() {
+
+      Printer.ESCPOS_INIT();
+
+      Printer.append("Hello World\n"); 
+
+      Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
+
+      Printer.ESCPOS_PRINT(resp => console.log('ESCPOS_PRINT',resp));
+
+}
+
+function Test_Barcode() {
+
+    Printer.ESCPOS_INIT();
+    
+    Printer.append(Printer.ESCPOS_BARCODE("12345678",70,3,80,0,2));
+
+    Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
+
+    Printer.ESCPOS_PRINT(resp => console.log('ESCPOS_PRINT',resp));
+         
+}
+
+function Test_QR() {
+
+    Printer.ESCPOS_INIT();
+
+    Printer.append(Printer.ESCPOS_QRCODE("http://www.google.com",51,6,48));
+
+    Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
+
+    Printer.ESCPOS_PRINT(resp => console.log('ESCPOS_PRINT',resp));        
+}
+
 function Test_print() {
-//var list = document.getElementById("printerlist")
-//var currentPrinter = list.options[list.selectedIndex].text;
-          console.log('Test_print');
 
            Printer.ESCPOS_INIT();
 
@@ -60,59 +126,6 @@ function Test_print() {
 
            Printer.ESCPOS_PRINT((resp) => { console.log(resp)});
           
-}
-
-function Test_Imageprint(file) {
-
-
-        Printer.ESCPOS_INIT();
-
-    var canvas = document.createElement('canvas');
-    var ctx = canvas.getContext('2d');  
-        canvas.width = 500;
-        canvas.height = 161;
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0,0,500,161);
-        ctx.fillStyle = 'black';
-        ctx.rect(10,10,100,100);
-        ctx.stroke();
-        ctx.font = '40px sans-serif';
-        ctx.fillText('Hello World',125,60);
-        document.body.appendChild(canvas);
-
-        Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
-          
-        Printer.appendCanvas(canvas);
-
-        Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
-
-        Printer.ESCPOS_PRINT(() => console.log('ESCPOS_PRINT',resp));
-
-}
-
-function Test_Barcodeprint() {
-var list = document.getElementById("printerlist")
-var currentPrinter = list.options[list.selectedIndex].text;
-
-
-    Printer.ESCPOS_INIT();
-    Printer.append(Printer.ESCPOS_BARCODE("12345678",70,3,80,0,2));
-        var sucess = Printer.ESCPOS_PRINT(currentPrinter);
-        if(!sucess){
-                alert(Printer.ESCPOS_LASTERROR);
-        }           
-
-}
-
-function Test_QRprint() {
-var list = document.getElementById("printerlist")
-var currentPrinter = list.options[list.selectedIndex].text;
-    Printer.ESCPOS_INIT();
-    Printer.append(Printer.ESCPOS_QRCODE("http://www.google.com",51,6,48));
-        var sucess = Printer.ESCPOS_PRINT(currentPrinter);
-        if(!sucess){
-                alert(Printer.ESCPOS_LASTERROR);
-        }           
 }
 
 function Test_Full() {

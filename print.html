@@ -6,7 +6,7 @@
   <style>
   		* { font-family: sans-serif; }
   		.btn { background-color: rgba(12, 119, 212, 1); width: 100px; line-height: 2; color: white; text-align: center; float: right; } 
-  		label { width: 300px; float: left; }
+  		label { width: 300px; margin-right: calc(100% - 300px); float: left; }
   		label p:nth-child(1) { width: 200px; float: left; }
   </style>
  </head>
@@ -14,24 +14,24 @@
 	<h1>ESC/POS Printing from nw.js</h1>
 	<label>
 		<p>Print Hello World Text</p>
-		<p class="btn b" onclick="printHello()">OK</p>
+		<p class="btn b" onclick="Text_TextHelloWorld()">OK</p>
 	</label>
 	<label>
 		<p>Print Hello World Image</p>
 		
-		<p class="btn b" onclick="printHello()">OK</p>
+		<p class="btn b" onclick="Test_ImageHelloWorld()">OK</p>
 	</label>	
 	<label>
 		<select id="image-list"></select>
-		<p class="btn b" onclick="printFileImage()">OK</p>
+		<p class="btn b" onclick="Test_ImageFile()">OK</p>
 	</label>
 	<label>
 		<p>BarCode</p>
-		<p class="btn b" onclick="Test_Barcodeprint()">OK</p>
+		<p class="btn b" onclick="Test_Barcode()">OK</p>
 	</label>
 	<label>
 		<p>QR Code</p>
-		<p class="btn b" onclick="Test_QRprint()">OK</p>
+		<p class="btn b" onclick="Test_QR()">OK</p>
 	</label>
 </body>
 </html>
