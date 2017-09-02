@@ -203,6 +203,7 @@ exports.ESCPOS_CMD = {
         LEFT: new Buffer('1B6100','hex').toString('utf8'),
         CENTER: new Buffer('1B6101','hex').toString('utf8'),
         RIGHT: new Buffer('1B6102','hex').toString('utf8'),
+        PAGE_MODE: new Buffer('1B4C','hex').toString('utf8'),
         // mere cutting command will cut paper in the middle of your text due to different positions of print- and cuthead
         // looks like not all printers support different cutting modes        
         CUT_FULL: new Buffer('1D5630','hex').toString('utf8'),

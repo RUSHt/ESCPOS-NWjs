@@ -1,35 +1,34 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
  <head>
-  <title></title>
-  <meta name="generator" content="editplus" />
-  <meta name="author" content="Thomas Höbelt"/>
-  <meta name="keywords" content="ESCPOS, printing" />
-  <meta name="description" content="A demo of the node ESCPOS utility" />
+  <title>ESCPOS nw.js</title>
   <meta charset="utf-8"/>
   <script type="text/javascript" src="main.js"></script>
+  <style>
+  		* { font-family: sans-serif; }
+  		.btn { background-color: rgba(12, 119, 212, 1); width: 100px; line-height: 2; } 
+  </style>
  </head>
 <body onload="init()">
-<H1>A short demo of my ESCPOS printing in pure Javascript</H1>
-<HR>
-<select id="printerlist"></select>&nbsp;&nbsp;&nbsp;This will show all shared printers on Windows and all LP on Linux
-<HR>
-<input type="submit" class="menuebuttons" value="Print some text" onclick="Test_print()"/>
-<p>
-<input type="submit" class="menuebuttons" value="Print an Image" onclick="Test_Imageprint()"/>
-<p>
-<input type="submit" class="menuebuttons" value="Print a Barcode" onclick="Test_Barcodeprint()"/>
-<p>
-<input type="submit" class="menuebuttons" value="Print a QR-Code" onclick="Test_QRprint()"/>
-<p>
-
-<input type="submit" class="menuebuttons" value="Print Full Demo" onclick="Test_Full()"/>
-<p>
-
-<div id ="Ausgabe">
-
-
-</div>
-
- </body>
+	<h1>ESC/POS Printing from nw.js</h1>
+	<label>
+		Print Hello World Text
+		<p class="btn b" onclick="printHello()">OK</p>
+	</label>
+	<label>
+		Print Hello World Image
+		<p class="btn b" onclick="printHello()">OK</p>
+	</label>	
+	<label>
+		<select id="image-list"></select>
+		<p class="btn b" onclick="printFileImage()">OK</p>
+	</label>
+	<label>
+		BarCode
+		<p class="btn b" onclick="Test_Barcodeprint()">OK</p>
+	</label>
+	<label>
+		QR Code
+		<p class="btn b" onclick="Test_QRprint()">OK</p>
+	</label>
+</body>
 </html>

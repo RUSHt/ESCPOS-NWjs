@@ -1,9 +1,16 @@
 Printer = require('./escpos_printing.js');
 
+$$ = (qs) => [].slice.call(document.querySelectorAll(qs)); 
+$ = (qs) => document.querySelector(qs);
+
+fs = require('fs');
+
 function init() {
 
-Printer.ESCPOS_INIT('COM8');
-
+  Printer.ESCPOS_INIT('COM8');
+  fs.readDir('images',(e,d) => {
+         $('#image-list').innerHTML = d.map(fileName => '<option>'+fileName+'</option>').join('');
+  }
 }
 function Test_print() {
 //var list = document.getElementById("printerlist")
@@ -54,7 +61,10 @@ function Test_print() {
           
 }
 
-function Test_Imageprint() {
+function Test_Imageprint(file) {
+
+
+        Printer.ESCPOS_INIT();
 
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');  
@@ -69,13 +79,13 @@ function Test_Imageprint() {
         ctx.fillText('Hello World',125,60);
         document.body.appendChild(canvas);
 
-          Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
+        Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
           
-          Printer.appendCanvas(canvas);
+        Printer.appendCanvas(canvas);
 
-          Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
+        Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
 
-          Printer.ESCPOS_PRINT(() => console.log('ESCPOS_PRINT',resp));
+        Printer.ESCPOS_PRINT(() => console.log('ESCPOS_PRINT',resp));
 
 }
 
