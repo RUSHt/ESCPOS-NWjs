@@ -15,9 +15,35 @@ function init() {
 }
 
 function Test_ImageFile() {
-   var selected = $$('#image-list')[$('#image-list').selectedIndex].innerHTML;
-      console.log('selected',selected);
+   var selected = $$('#image-list option')[$('#image-list').selectedIndex].innerHTML;
+       fs.readFile('images/'+selected,(e,file) => {
+           var image = new Image();
+               image.onload = () => { printImage(image) }
+               image.src = file;
+       })
 };
+
+function printImage(image) {
+    console.log('print image');
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    
+        canvas.width = image.width;
+        canvas.height = image.height;
+
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+
+        ctx.drawImage(image,0,0);
+
+        Printer.append(Printer.ESCPOS_CMD.LINE_SPACE(0));
+          
+        Printer.appendCanvas(canvas);
+
+        Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
+
+        Printer.ESCPOS_PRINT(resp => console.log('ESCPOS_PRINT',resp));
+}
 
 function Test_ImageHelloWorld() {
 
