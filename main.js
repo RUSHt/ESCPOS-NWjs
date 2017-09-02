@@ -8,7 +8,7 @@ fs = require('fs');
 function init() {
 
   Printer.ESCPOS_INIT('COM8');
-  fs.readdir(__dirname+'/images',(e,d) => {
+  fs.readdir(global.__dirname+'/images',(e,d) => {
         console.log('d',d);
          $('#image-list').innerHTML = d.map(fileName => '<option>'+fileName+'</option>').join('');
   });
@@ -17,8 +17,8 @@ function init() {
 function Test_ImageFile() {
   
    var selected = $$('#image-list option')[$('#image-list').selectedIndex].innerHTML;
-        console.log('Test_ImageFile',__dirname+'/images/'+selected);
-       fs.readFile(__dirname+'/images/'+selected,(e,file) => {
+        console.log('Test_ImageFile',global.__dirname+'/images/'+selected);
+       fs.readFile(global.__dirname+'/images/'+selected,(e,file) => {
            console.log('error',e);
            console.log('typeof d',typeof d);
            console.log('got File',selected);
