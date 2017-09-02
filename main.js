@@ -16,16 +16,11 @@ function init() {
 
 function Test_ImageFile() {
   
-   var selected = $$('#image-list option')[$('#image-list').selectedIndex].innerHTML;
-        console.log('Test_ImageFile',global.__dirname+'/images/'+selected);
-       fs.readFile(global.__dirname+'\\images\\'+selected,(e,file) => {
-           console.log('error',e);
-           console.log('typeof d',typeof d);
-           console.log('got File',selected);
-           var image = new Image();
-               image.onload = () => { console.log('loaded file',selected); printImage(image) }
-               image.src = file;
-       })
+  var selected = $$('#image-list option')[$('#image-list').selectedIndex].innerHTML;
+
+  var image = document.createElement('img');
+      image.onload = () => printImage(image);
+      image.src = fs.readFileSync('images/'+selected);
 };
 
 function printImage(image) {
