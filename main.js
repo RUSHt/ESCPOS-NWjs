@@ -14,7 +14,7 @@ function init() {
   });
 }
 
-function Text_ImageFile() {
+function Test_ImageFile() {
    var selected = $$('#image-list')[$('#image-list').selectedIndex].innerHTML;
       console.log('selected',selected);
 };
