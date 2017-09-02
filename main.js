@@ -21,6 +21,8 @@ function Test_ImageFile() {
   var image = document.createElement('img');
       image.onload = () => printImage(image);
       image.src = fs.readFileSync('images/'+selected);
+
+      console.log('typeof image',typeof image);
 };
 
 function printImage(image) {
