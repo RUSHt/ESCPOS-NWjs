@@ -10,7 +10,7 @@ function init() {
   Printer.ESCPOS_INIT('COM8');
   fs.readDir('images',(e,d) => {
          $('#image-list').innerHTML = d.map(fileName => '<option>'+fileName+'</option>').join('');
-  }
+  });
 }
 function Test_print() {
 //var list = document.getElementById("printerlist")
