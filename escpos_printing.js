@@ -51,7 +51,7 @@ var operatingSys = require('os');
 
 
 var serialPorts;
-var sending;
+var SendingData;
 //defaulting OS to whatever you like init function will detect appropriately
 
 // this one is needed and must be set to whatever the language of your Win (cmd output) puts out for the Word "Printer"
@@ -91,13 +91,16 @@ exports.ESCPOS_INIT = function  (port,CB) {
     ESCPOS_RESULT = "";
     // and the Errorstring
     ESCPOS_LASTERROR = "";
-    CB('ESCPOS_INIT port ' + port)
+
+    CB('ESCPOS_INIT port ' + port);
+
     if ( port ) {
         serialPorts = [
             { com: port, device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
         ]
         CB('Connecting...')    
         serialPorts.forEach(port => {
+
             CB('trying connect ',port.com);
 
             chrome.serial.connect(port.com,(resp) => {
@@ -189,9 +192,9 @@ var foundprinter = false;
 
         function send() {
             log('send '+filename);
-            if ( sending ) { setTimeout(() => { log('delay'); send();  },500) }
-            sending = true;
-            serialPorts.Printer.send(file.buffer,(resp) => { log('done '+filename); sending = false; typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }) });
+            if ( SendingData ) { setTimeout(() => { log('delay'); send();  },500) }
+            SendingData = true;
+            serialPorts.Printer.send(file.buffer,(resp) => { log('done '+filename); SendingData = false; typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }) });
         }
 
         
