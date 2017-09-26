@@ -151,30 +151,9 @@ exports.log = function(cB) {
 exports.ESCPOS_PRINT = function(cB) {
 // we use tempdir as it should be available and read/writeble in all Systems
 
-
-
-var tempdir = operatingSys.tmpdir();
-var filename = tempdir + "\\escpos-"+Date.now()+".prt";
+var filename = operatingSys.tmpdir() + "\\escpos-"+Date.now()+".prt";
 
     printQ.push({ sending: false, filename: filename });
-
-//needed for linux printing
-var printcommand = ""; 
-var printresult = "";
-var foundprinter = false;
-
-// delete the last version of our RAW file
-
-        try {
-                stats = fileSys.lstatSync(filename);
-                if (stats.isFile()) {
-                    fileSys.unlinkSync(filename);
-                    log('Delete '+filename);
-                }
-        }
-        catch (e) {
-            // why bother deleting if the file does not even exist
-        }
 
 // manual correction for the currency Symbol in my case the Euro Sign:
         ESCPOS_RESULT = ESCPOS_RESULT.replace("€",String.fromCharCode(128));
@@ -188,25 +167,16 @@ var foundprinter = false;
 
         ESCPOS_RESULT = "";
         
-        
-
         send();
 
         function send() {
-            log('send\n'+JSON.stringify(printQ,null,2));
             if ( !printQ[0] ) { return; }
             if ( printQ[0].sending == true ) { return; }
             printQ[0].sending = true;
             var file = fileSys.readFileSync(printQ[0].filename);
-            serialPorts.Printer.send(file.buffer,(resp) => { log('done '+filename); printQ.splice(0,1); send(); typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }); });
+            var unlink = fileSys.unlinkSync(printQ[0].filename);
+            serialPorts.Printer.send(file.buffer,(resp) => { printQ.splice(0,1); send(); typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }); });
         }
-
-        
-
-        //fileSys.readFile(filename,(e,file) => {
-        //    serialPorts.Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
-        //})
-        
     
 }
 //=======================================================================================================================================================
