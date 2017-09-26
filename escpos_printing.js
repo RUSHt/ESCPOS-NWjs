@@ -84,11 +84,11 @@ exports.ESCPOS_INIT = function  (port) {
     var listResultLines = [];
     var listLineParts = [];
     var detailParts = []; 
-// resetting the output to empty string
-ESCPOS_RESULT = "";
-// and the Errorstring
-ESCPOS_LASTERROR = "";
-
+    // resetting the output to empty string
+    ESCPOS_RESULT = "";
+    // and the Errorstring
+    ESCPOS_LASTERROR = "";
+    console.log('ESCPOS_INIT port',port)
     if ( port ) {
         serialPorts = [
             { com: port, device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
