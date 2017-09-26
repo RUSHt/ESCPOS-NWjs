@@ -138,11 +138,18 @@ exports.append = function (value) {
 // only errorcheck by result of copy operation
 // sucess means the os has copied the file
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
+log = () => {};
+exports.log = function(cB) {
+    log = (data) => cB(data);
+}
 exports.ESCPOS_PRINT = function(cB) {
 // we use tempdir as it should be available and read/writeble in all Systems
 
 var tempdir = operatingSys.tmpdir();
 var filename = tempdir + "/escpos-"+Date.now()+".prt";
+
+    log(filename);
+
 //needed for linux printing
 var printcommand = ""; 
 var printresult = "";
@@ -154,6 +161,7 @@ var foundprinter = false;
                 stats = fileSys.lstatSync(filename);
                 if (stats.isFile()) {
                     fileSys.unlinkSync(filename);
+                    log('Delete '+filename);
                 }
         }
         catch (e) {
