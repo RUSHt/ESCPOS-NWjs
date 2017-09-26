@@ -145,6 +145,8 @@ exports.log = function(cB) {
 exports.ESCPOS_PRINT = function(cB) {
 // we use tempdir as it should be available and read/writeble in all Systems
 
+exports.sending;
+
 var tempdir = operatingSys.tmpdir();
 var filename = tempdir + "\\escpos-"+Date.now()+".prt";
 
@@ -182,7 +184,13 @@ var foundprinter = false;
         
         var file = fileSys.readFileSync(filename);
 
-        serialPorts.Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
+        function send() {
+            if ( exports.sending ) { setTimeout(() => { log('delay'); send();  },500) }
+            export.sending = true;
+            serialPorts.Printer.send(file.buffer,(resp) => { exports.sending = false; typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }) });
+        }
+
+        
 
         //fileSys.readFile(filename,(e,file) => {
         //    serialPorts.Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
