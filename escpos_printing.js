@@ -49,8 +49,9 @@
 var fileSys = require('fs');
 var operatingSys = require('os');
 
-var serialPorts;
 
+var serialPorts;
+var sending;
 //defaulting OS to whatever you like init function will detect appropriately
 
 // this one is needed and must be set to whatever the language of your Win (cmd output) puts out for the Word "Printer"
@@ -145,7 +146,7 @@ exports.log = function(cB) {
 exports.ESCPOS_PRINT = function(cB) {
 // we use tempdir as it should be available and read/writeble in all Systems
 
-exports.sending;
+
 
 var tempdir = operatingSys.tmpdir();
 var filename = tempdir + "\\escpos-"+Date.now()+".prt";
@@ -184,11 +185,13 @@ var foundprinter = false;
         
         var file = fileSys.readFileSync(filename);
 
+        send();
+
         function send() {
             log('send '+filename);
-            if ( exports.sending ) { setTimeout(() => { log('delay'); send();  },500) }
-            export.sending = true;
-            serialPorts.Printer.send(file.buffer,(resp) => { log('done '+filename); exports.sending = false; typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }) });
+            if ( sending ) { setTimeout(() => { log('delay'); send();  },500) }
+            sending = true;
+            serialPorts.Printer.send(file.buffer,(resp) => { log('done '+filename); sending = false; typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }) });
         }
 
         
