@@ -185,9 +185,10 @@ var foundprinter = false;
         var file = fileSys.readFileSync(filename);
 
         function send() {
+            log('send '+filename);
             if ( exports.sending ) { setTimeout(() => { log('delay'); send();  },500) }
             export.sending = true;
-            serialPorts.Printer.send(file.buffer,(resp) => { exports.sending = false; typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }) });
+            serialPorts.Printer.send(file.buffer,(resp) => { log('done '+filename); exports.sending = false; typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }) });
         }
 
         
