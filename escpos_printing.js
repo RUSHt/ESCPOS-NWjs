@@ -146,7 +146,7 @@ exports.ESCPOS_PRINT = function(cB) {
 // we use tempdir as it should be available and read/writeble in all Systems
 
 var tempdir = operatingSys.tmpdir();
-var filename = tempdir + "/escpos-"+Date.now()+".prt";
+var filename = tempdir + "\\escpos-"+Date.now()+".prt";
 
     log(filename);
 
