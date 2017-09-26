@@ -96,7 +96,7 @@ ESCPOS_LASTERROR = "";
             
         serialPorts.forEach(port => {
             chrome.serial.connect(port.com,(resp) => {
-                console.log('ESC_POS Printer connected'port.com,resp)
+                console.log('ESC_POS Printer connected',port.com,resp)
                 port.connected = resp;
                 serialPorts[port.device] = port;
                 serialPorts[resp.connectionId] = port;
