@@ -79,7 +79,7 @@ var Printer; // will be passed in on init.
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
 exports.ESCPOS_INIT = function  (port,CB) {
     typeof CB != 'function' && ( CB = () => {} );
-    console.log('ESCPOS_INIT Start port',port);
+    log('ESCPOS_INIT Start port',port);
     
     var listCommand = "";
     var listResult = "";
