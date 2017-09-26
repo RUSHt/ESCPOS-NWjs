@@ -78,7 +78,9 @@ var Printer; // will be passed in on init.
 // should be called before every use because the require will cache code AND values
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
 exports.ESCPOS_INIT = function  (port) {
- 
+
+    console.log('ESCPOS_INIT Start port',port);
+    
     var listCommand = "";
     var listResult = "";
     var listResultLines = [];
