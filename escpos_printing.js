@@ -180,9 +180,13 @@ var foundprinter = false;
 
         ESCPOS_RESULT = "";
         
-        fileSys.readFile(filename,(e,file) => {
-            serialPorts.Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
-        })
+        var file = fileSys.readFileSync(filename);
+
+        serialPorts.Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
+
+        //fileSys.readFile(filename,(e,file) => {
+        //    serialPorts.Printer.send(file.buffer,(resp) => typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }));
+        //})
         
     
 }
