@@ -197,7 +197,7 @@ var foundprinter = false;
             if ( !printQ[0] ) { return; }
             if ( printQ[0].sending == true ) { return; }
             printQ[0].sending = true;
-            serialPorts.Printer.send(file.buffer,(resp) => { log('done '+filename); printQ.splice(0,1);  typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }); send(); });
+            serialPorts.Printer.send(file.buffer,(resp) => { log('done '+filename); printQ.splice(0,1); send(); typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }); });
         }
 
         
