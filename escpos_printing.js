@@ -188,7 +188,7 @@ var foundprinter = false;
 
         ESCPOS_RESULT = "";
         
-        var file = fileSys.readFileSync(filename);
+        
 
         send();
 
@@ -197,6 +197,7 @@ var foundprinter = false;
             if ( !printQ[0] ) { return; }
             if ( printQ[0].sending == true ) { return; }
             printQ[0].sending = true;
+            var file = fileSys.readFileSync(printQ[0].filename);
             serialPorts.Printer.send(file.buffer,(resp) => { log('done '+filename); printQ.splice(0,1); send(); typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }); });
         }
 
