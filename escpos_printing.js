@@ -80,7 +80,8 @@ var Printer; // will be passed in on init.
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
 exports.ESCPOS_INIT = function  (port,CB) {
     typeof CB != 'function' && ( CB = () => {} );
-    log('ESCPOS_INIT Start port',port);
+
+    log('ESCPOS_INIT Start port '+port);
     
     var listCommand = "";
     var listResult = "";
@@ -101,7 +102,9 @@ exports.ESCPOS_INIT = function  (port,CB) {
         CB('Connecting...')    
         serialPorts.forEach(port => {
 
-            CB('trying connect ',port.com);
+            CB('trying connect '+port.com);
+
+            CB(Object.keys(chrome));
 
             chrome.serial.connect(port.com,(resp) => {
                 CB(resp);
