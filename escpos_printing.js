@@ -77,8 +77,8 @@ var Printer; // will be passed in on init.
 // Initialitiation of Output and printerlist
 // should be called before every use because the require will cache code AND values
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
-exports.ESCPOS_INIT = function  (port,cB) {
-    typeof cB != 'function' && ( cB = () => {} );
+exports.ESCPOS_INIT = function  (port,CB) {
+    typeof CB != 'function' && ( CB = () => {} );
     console.log('ESCPOS_INIT Start port',port);
     
     var listCommand = "";
@@ -90,21 +90,23 @@ exports.ESCPOS_INIT = function  (port,cB) {
     ESCPOS_RESULT = "";
     // and the Errorstring
     ESCPOS_LASTERROR = "";
-    cB('ESCPOS_INIT port ' + port)
+    CB('ESCPOS_INIT port ' + port)
     if ( port ) {
         serialPorts = [
             { com: port, device: 'Printer', connected: false, addListener: function(cB) { return this._listen.push(cB); }, _listen: [] }
         ]
-        cB('Commesting...')    
+        CB('Connecting...')    
         serialPorts.forEach(port => {
-            cB('trying connect ',port.com);
+            CB('trying connect ',port.com);
 
             chrome.serial.connect(port.com,(resp) => {
-                cB('ESC_POS Printer connected '+port.com+' '+Object.keys(resp));
+                CB(resp);
+                CB('Conntected '+port.com);
                 port.connected = resp;
                 serialPorts[port.device] = port;
                 serialPorts[resp.connectionId] = port;
                 port.send = (buffer,cB) => {
+                    CB('chrome.serial.send '+resp.connectionId);
                     chrome.serial.send(resp.connectionId,buffer,(resp) => cB(resp));
                 }
             });       
