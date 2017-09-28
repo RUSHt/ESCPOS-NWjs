@@ -932,9 +932,12 @@ exports._printImageBufferEpson = function(width, height, data, callback){
     append(new Buffer ([0x00]));
     append(new Buffer ([height & 0xff]));
     append(new Buffer ([(height >> 8) & 0xff]));
+    
 
     // append data
     append(imageBuffer);
+
+    append(new Buffer ([0x1d, 0x56, 0x42 ]));
 
     // Don't forget to clean the buffer
     let buff = buffer;
