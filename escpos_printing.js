@@ -832,7 +832,7 @@ exports.printImageEpson = function(canvas, cB){
 
     var image = canvas.toDataURL();
 
-    var filename = __dirname+'/print-canvas-'+Date.now()+'.png';
+    var filename = __dirname+'\\print-canvas-'+Date.now()+'.png';
 
     fileSys.appendFileSync(filename, new Buffer(image.replace(/^data:image\/\w+;base64,/, ""),'base64') ,'binary');
 
@@ -841,6 +841,7 @@ exports.printImageEpson = function(canvas, cB){
     fileSys.createReadStream(filename)
       .pipe(png)
       .on('parsed', function() {
+        log('is parsed '+this.width);
         exports._printImageBufferEpson(this.width, this.height, this.data, function(buff){
           //callback(buff); 
           log('Got Buffer');
