@@ -51,6 +51,12 @@ var operatingSys = require('os');
 var stream = require('stream');
 var PNG = require('pngjs').PNG;
 
+var buffer = null;
+function append(buff) {
+  if (buffer) buffer = Buffer.concat([buffer, buff]);
+  else buffer = buff;
+}
+
 var serialPorts;
 var SendingData;
 var printQ = [];
@@ -856,6 +862,7 @@ exports.printImageEpson = function(canvas, cB){
 
 exports._printImageBufferEpson = function(width, height, data, callback){
     // Get pixel rgba in 2D array
+    log('_printImageBufferEpson');
     var pixels = [];
     for (var i = 0; i < height; i++) {
       var line = [];
