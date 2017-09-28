@@ -853,7 +853,7 @@ exports.printImageEpson = function(canvas, cB){
   },
 
 
-exports._printImageBufferEpson: function(width, height, data, callback){
+exports._printImageBufferEpson = function(width, height, data, callback){
     // Get pixel rgba in 2D array
     var pixels = [];
     for (var i = 0; i < height; i++) {
