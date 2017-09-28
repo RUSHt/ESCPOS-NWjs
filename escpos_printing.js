@@ -49,7 +49,7 @@
 var fileSys = require('fs');
 var operatingSys = require('os');
 var stream = require('stream');
-
+var PNG = require('pngjs').PNG;
 
 var serialPorts;
 var SendingData;
