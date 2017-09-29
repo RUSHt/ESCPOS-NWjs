@@ -842,13 +842,13 @@ exports.printCanvas = function(canvas, cB){
 
     fileSys.appendFileSync(filename, new Buffer(image.replace(/^data:image\/\w+;base64,/, ""),'base64') ,'binary');
 
-    
+    log('Printing - '+filename);
 
     fileSys.createReadStream(filename)
       .pipe(png)
       .on('parsed', function() {
         exports._printImageBufferEpson(this.width, this.height, this.data, function(buff){
-          serialPorts.Printer.send(buff.buffer,(resp) => { typeof cB == 'function' && cB({ result: resp }); });
+          serialPorts.Printer.send(buff.buffer,(resp) => { log('Completed - '+filename); typeof cB == 'function' && cB({ result: resp }); });
         });
       })
       .on('error', function(err) {
@@ -859,8 +859,16 @@ exports.printCanvas = function(canvas, cB){
 
 
 exports._printImageBufferEpson = function(width, height, data, callback){
+
+    var buffer = null;
+
+    function append(buff) {
+      if (buffer) buffer = Buffer.concat([buffer, buff]);
+      else buffer = buff;
+    }
+
     // Get pixel rgba in 2D array
-    
+
     var pixels = [];
     for (var i = 0; i < height; i++) {
       var line = [];
