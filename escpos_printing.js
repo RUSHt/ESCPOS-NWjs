@@ -831,31 +831,29 @@ exports.STAR_CP ={
         Thai_CC17 : new Buffer('1B1D7465','hex').toString('utf8'),
         Thai_CC18 : new Buffer('1B1D7466','hex').toString('utf8')
 }
-exports.printImageEpson = function(canvas, cB){
+exports.printCanvas = function(canvas, cB){
     let png = new PNG({
       filterType: 4
     });
-    log('Start '+Date.now())
+    
     var image = canvas.toDataURL();
 
     var filename = __dirname+'\\print-canvas-'+Date.now()+'.png';
 
     fileSys.appendFileSync(filename, new Buffer(image.replace(/^data:image\/\w+;base64,/, ""),'base64') ,'binary');
 
-    log('Written to '+filename+' '+Date.now());
+    
 
     fileSys.createReadStream(filename)
       .pipe(png)
       .on('parsed', function() {
-        log('is parsed '+Date.now());
         exports._printImageBufferEpson(this.width, this.height, this.data, function(buff){
-          //callback(buff); 
-          log('Got Buffer '+Date.now());
-          serialPorts.Printer.send(buff.buffer,(resp) => { log('Done '+filename); typeof cB == 'function' && cB({ result: resp }); });
+          serialPorts.Printer.send(buff.buffer,(resp) => { typeof cB == 'function' && cB({ result: resp }); });
         });
       })
       .on('error', function(err) {
-        console.error(err);
+        log('printBuff Error');
+        log(err);
       });
   },
 
@@ -937,7 +935,8 @@ exports._printImageBufferEpson = function(width, height, data, callback){
     // append data
     append(imageBuffer);
 
-    append(new Buffer ([0x1d, 0x56, 0x42, 0x40 ]));
+    // Add Feed & Cut.
+    append(new Buffer ([0x1d, 0x56, 0x42, 0x40 ])); 
 
     // Don't forget to clean the buffer
     let buff = buffer;
