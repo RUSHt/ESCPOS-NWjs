@@ -835,22 +835,22 @@ exports.printImageEpson = function(canvas, cB){
     let png = new PNG({
       filterType: 4
     });
-
+    log('Start '+Date.now())
     var image = canvas.toDataURL();
 
     var filename = __dirname+'\\print-canvas-'+Date.now()+'.png';
 
     fileSys.appendFileSync(filename, new Buffer(image.replace(/^data:image\/\w+;base64,/, ""),'base64') ,'binary');
 
-    log('Written to '+filename);
+    log('Written to '+filename+' '+Date.now());
 
     fileSys.createReadStream(filename)
       .pipe(png)
       .on('parsed', function() {
-        log('is parsed '+this.width);
+        log('is parsed '+Date.now());
         exports._printImageBufferEpson(this.width, this.height, this.data, function(buff){
           //callback(buff); 
-          log('Got Buffer');
+          log('Got Buffer '+Date.now());
           serialPorts.Printer.send(buff.buffer,(resp) => { log('Done '+filename); typeof cB == 'function' && cB({ result: resp }); });
         });
       })
@@ -862,7 +862,7 @@ exports.printImageEpson = function(canvas, cB){
 
 exports._printImageBufferEpson = function(width, height, data, callback){
     // Get pixel rgba in 2D array
-    log('_printImageBufferEpson');
+    
     var pixels = [];
     for (var i = 0; i < height; i++) {
       var line = [];
@@ -937,7 +937,7 @@ exports._printImageBufferEpson = function(width, height, data, callback){
     // append data
     append(imageBuffer);
 
-    append(new Buffer ([0x1d, 0x56, 0x31 ]));
+    append(new Buffer ([0x1d, 0x56, 0x42, 0x40 ]));
 
     // Don't forget to clean the buffer
     let buff = buffer;
