@@ -834,7 +834,11 @@ exports.ESCPOS_CMD = {
         
 }
 exports.openDrawer = function(cB) {
-    serialPorts.Printer.send(new Buffer('1B703019FF','hex').buffer,(resp) => { cB(resp) });
+    serialPorts.Printer.send(new Buffer('1B19FA','hex').buffer,(resp) => { cB(resp) });
+}
+
+exports.printBuffer = function(buffer,cB) {
+    serialPorts.Printer.send(buffer,resp => { cB(resp) });
 }
 
 exports.printCanvas = function(canvas, cB){
