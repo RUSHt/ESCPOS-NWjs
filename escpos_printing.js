@@ -192,70 +192,7 @@ var filename = operatingSys.tmpdir() + "\\escpos-"+Date.now()+".prt";
 
 //=====================================================================================================================================
 // Various Commandsets named appropriately for easy use
-exports.ESCPOS_CMD = {
-        RESET: new Buffer('1B40','hex').toString('utf8'),
-        FONTA: new Buffer('1B4D00','hex').toString('utf8'),
-        FONTB: new Buffer('1B4D01','hex').toString('utf8'),
-        NORMAL: new Buffer('1B4500','hex').toString('utf8'),
-        BOLD: new Buffer('1B4501','hex').toString('utf8'),
-        NOUNDERLINE: new Buffer('1B2D00','hex').toString('utf8'),
-        THINUNDERLINE: new Buffer('1B2D01','hex').toString('utf8'),
-        THICKUNDERLINE: new Buffer('1B2D02','hex').toString('utf8'),
-        SETSIZE: function(width,height){
-                var command = new Buffer('1D21'+("00"+((width-1)*16)+(height-1).toString(16)).slice(-2),'hex').toString('utf8');
-                return command
-        },
-        SMOOTH_ON: new Buffer('1D62FF','hex').toString('utf8'),
-        SMOOTH_OFF: new Buffer('1D6200','hex').toString('utf8'),
-        DOUBLE_ON: new Buffer('1B4701','hex').toString('utf8'),
-        DOUBLE_OFF: new Buffer('1B4700','hex').toString('utf8'),
-        UPSDOWN_ON: new Buffer('1B7B01','hex').toString('utf8'),
-        UPSDOWN_OFF: new Buffer('1B7B00','hex').toString('utf8'),
-        TURN90_ON: new Buffer('1B5601','hex').toString('utf8'),
-        TURN90_OFF: new Buffer('1B5600','hex').toString('utf8'),
-        INVERT_ON: new Buffer('1D4201','hex').toString('utf8'),
-        INVERT_OFF: new Buffer('1D4200','hex').toString('utf8'),
-        LEFT: new Buffer('1B6100','hex').toString('utf8'),
-        CENTER: new Buffer('1B6101','hex').toString('utf8'),
-        RIGHT: new Buffer('1B6102','hex').toString('utf8'),
-        PAGE_MODE: new Buffer('1B4C','hex').toString('utf8'),
-        // mere cutting command will cut paper in the middle of your text due to different positions of print- and cuthead
-        // looks like not all printers support different cutting modes        
-        CUT_FULL: new Buffer('1D5630','hex').toString('utf8'),
-        CUT_PARTIAL: new Buffer('1D5631','hex').toString('utf8'),
-        // feed x motionunits and cut
-        FEEDCUT_FULL: function(units){
-                command = new Buffer('1D5641'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
-                return command
-                },
-        FEEDCUT_PARTIAL: function(units){
-                command = new Buffer('1D5642'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
-                return command
-                },
-        FEEDUNITS_ANDPRINT: function(units){
-                var command = new Buffer('1B4A'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
-                return command;
-        },
-        FEEDLINES_ANDPRINT: function(units){
-                var command = new Buffer('1B64'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
-                return command;
-        },
-        // not supported by all printers
-        PRINT_GOBACK: function(units){
-                var command = new Buffer('1B65'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
-                return command;
-        },
-        RIGHT_SPACE: function(units){
-                var command = new Buffer('1B20'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
-                return command;
-        },
-        LINE_SPACE: function(units){
-                var command = new Buffer('1B33'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
-                return command;
-        },
-        LINE_SPACE_DEFAULT: new Buffer('1B32','hex').toString('utf8')
-        
-}
+
 //=====================================================================================================================================
 
 //=====================================================================================================================================
@@ -831,6 +768,77 @@ exports.STAR_CP ={
         Thai_CC17 : new Buffer('1B1D7465','hex').toString('utf8'),
         Thai_CC18 : new Buffer('1B1D7466','hex').toString('utf8')
 }
+exports.ESCPOS_CMD = {
+        RESET: new Buffer('1B40','hex').toString('utf8'),
+        FONTA: new Buffer('1B4D00','hex').toString('utf8'),
+        FONTB: new Buffer('1B4D01','hex').toString('utf8'),
+        NORMAL: new Buffer('1B4500','hex').toString('utf8'),
+        BOLD: new Buffer('1B4501','hex').toString('utf8'),
+        NOUNDERLINE: new Buffer('1B2D00','hex').toString('utf8'),
+        THINUNDERLINE: new Buffer('1B2D01','hex').toString('utf8'),
+        THICKUNDERLINE: new Buffer('1B2D02','hex').toString('utf8'),
+        SETSIZE: function(width,height){
+                var command = new Buffer('1D21'+("00"+((width-1)*16)+(height-1).toString(16)).slice(-2),'hex').toString('utf8');
+                return command
+        },
+        SMOOTH_ON: new Buffer('1D62FF','hex').toString('utf8'),
+        SMOOTH_OFF: new Buffer('1D6200','hex').toString('utf8'),
+        DOUBLE_ON: new Buffer('1B4701','hex').toString('utf8'),
+        DOUBLE_OFF: new Buffer('1B4700','hex').toString('utf8'),
+        UPSDOWN_ON: new Buffer('1B7B01','hex').toString('utf8'),
+        UPSDOWN_OFF: new Buffer('1B7B00','hex').toString('utf8'),
+        TURN90_ON: new Buffer('1B5601','hex').toString('utf8'),
+        TURN90_OFF: new Buffer('1B5600','hex').toString('utf8'),
+        INVERT_ON: new Buffer('1D4201','hex').toString('utf8'),
+        INVERT_OFF: new Buffer('1D4200','hex').toString('utf8'),
+        LEFT: new Buffer('1B6100','hex').toString('utf8'),
+        CENTER: new Buffer('1B6101','hex').toString('utf8'),
+        RIGHT: new Buffer('1B6102','hex').toString('utf8'),
+        PAGE_MODE: new Buffer('1B4C','hex').toString('utf8'),
+        OPEN_DRAWER: new Buffer('1B700119FF').toString('utf8'),
+        // mere cutting command will cut paper in the middle of your text due to different positions of print- and cuthead
+        // looks like not all printers support different cutting modes        
+        CUT_FULL: new Buffer('1D5630','hex').toString('utf8'),
+        CUT_PARTIAL: new Buffer('1D5631','hex').toString('utf8'),
+        // feed x motionunits and cut
+        FEEDCUT_FULL: function(units){
+                command = new Buffer('1D5641'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
+                return command
+                },
+        FEEDCUT_PARTIAL: function(units){
+                command = new Buffer('1D5642'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
+                return command
+                },
+        FEEDUNITS_ANDPRINT: function(units){
+                var command = new Buffer('1B4A'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
+                return command;
+        },
+        FEEDLINES_ANDPRINT: function(units){
+                var command = new Buffer('1B64'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
+                return command;
+        },
+        // not supported by all printers
+        PRINT_GOBACK: function(units){
+                var command = new Buffer('1B65'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
+                return command;
+        },
+        RIGHT_SPACE: function(units){
+                var command = new Buffer('1B20'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
+                return command;
+        },
+        LINE_SPACE: function(units){
+                var command = new Buffer('1B33'+("00"+units.toString(16)).slice(-2),'hex').toString('utf8');
+                return command;
+        },
+        LINE_SPACE_DEFAULT: new Buffer('1B32','hex').toString('utf8')
+        
+}
+exports.openDrawer = function(cB) {
+    exports.PRINT_INIT();
+    exports.append(exports.ESCPOS_CMD.OPEN_DRAWER());
+    exports.ESCPOS_PRINT(cB);
+}
+
 exports.printCanvas = function(canvas, cB){
     let png = new PNG({
       filterType: 4
