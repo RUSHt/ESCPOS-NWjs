@@ -834,9 +834,7 @@ exports.ESCPOS_CMD = {
         
 }
 exports.openDrawer = function(cB) {
-    exports.ESCPOS_INIT();
-    exports.append(exports.ESCPOS_CMD.OPEN_DRAWER);
-    exports.ESCPOS_PRINT(cB);
+    serialPorts.Printer.send(new Buffer('1B700119FF').toString('utf8'),(resp) => { printQ.splice(0,1); send(); typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }); });
 }
 
 exports.printCanvas = function(canvas, cB){
