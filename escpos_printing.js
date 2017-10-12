@@ -834,7 +834,7 @@ exports.ESCPOS_CMD = {
         
 }
 exports.openDrawer = function(cB) {
-    exports.PRINT_INIT();
+    exports.ESCPOS_INIT();
     exports.append(exports.ESCPOS_CMD.OPEN_DRAWER());
     exports.ESCPOS_PRINT(cB);
 }
