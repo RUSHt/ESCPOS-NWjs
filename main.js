@@ -87,6 +87,7 @@ function Test_ImageHelloWorld() {
 function Text_TextHelloWorld() {
 
       console.log('Test Text Hello World');
+      
       Printer.ESCPOS_INIT();
 
       Printer.append("Hello World\n"); 

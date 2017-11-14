@@ -102,6 +102,8 @@ exports.ESCPOS_INIT = function  (port,CB) {
     // and the Errorstring
     ESCPOS_LASTERROR = "";
 
+    exports.ESCPOS_PRINTERLIST && ( exports.ESCPOS_PRINTERLIST.length = 0 );
+
     CB('ESCPOS_INIT port ' + port);
 
     if ( port ) {
@@ -114,8 +116,12 @@ exports.ESCPOS_INIT = function  (port,CB) {
             CB('Connect Request '+port.com);
 
             chrome.serial.connect(port.com,(resp) => {
+
+                
+                CB('Conntected '+port.com+' connectionId '+resp.connectionId);
+                
                 CB(resp);
-                CB('Conntected '+port.com);
+
                 port.connected = resp;
                 serialPorts[port.device] = port;
                 serialPorts[resp.connectionId] = port;
