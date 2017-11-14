@@ -85,12 +85,13 @@ function Test_ImageHelloWorld() {
 }
 
 function Text_TextHelloWorld() {
+
       console.log('Test Text Hello World');
       Printer.ESCPOS_INIT();
 
       Printer.append("Hello World\n"); 
 
-      Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
+      //Printer.append(Printer.ESCPOS_CMD.FEEDCUT_PARTIAL(100));
 
       Printer.ESCPOS_PRINT(resp => console.log('ESCPOS_PRINT',resp));
 
