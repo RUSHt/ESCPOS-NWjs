@@ -7,7 +7,7 @@ fs = require('fs');
 
 function init() {
 
-  Printer.ESCPOS_INIT('COM8');
+  Printer.ESCPOS_INIT('COM11');
 
   fs.readdir(global.__dirname+'\\images',(e,d) => {
          $('#image-list').innerHTML = d.map(fileName => '<option>'+fileName+'</option>').join('');
