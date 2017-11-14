@@ -846,6 +846,7 @@ exports.printBuffer = function(buffer,cB) {
 }
 
 exports.printCanvas = function(canvas, cB){
+
     let png = new PNG({
       filterType: 4
     });
@@ -861,7 +862,9 @@ exports.printCanvas = function(canvas, cB){
     fileSys.createReadStream(filename)
       .pipe(png)
       .on('parsed', function() {
+        log('on parsed - '+filename);
         exports._printImageBufferEpson(this.width, this.height, this.data, function(buff){
+          log('_printImageBufferEpson '+this.width+' '+this.height);  
           serialPorts.Printer.send(buff.buffer,(resp) => { log('Completed - '+filename); typeof cB == 'function' && cB({ result: resp }); });
         });
       })
@@ -964,6 +967,9 @@ exports._printImageBufferEpson = function(width, height, data, callback){
     let buff = buffer;
     buffer = null;
     callback(buff);
+    
+    log('callback(buff)');
+
     return buff;
   }
 //=====================================================================================================================================
