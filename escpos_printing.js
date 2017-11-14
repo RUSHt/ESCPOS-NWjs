@@ -87,6 +87,7 @@ var Printer; // will be passed in on init.
 // should be called before every use because the require will cache code AND values
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
 exports.ESCPOS_INIT = function  (port,CB) {
+
     typeof CB != 'function' && ( CB = () => {} );
 
     log('ESCPOS_INIT Start port '+port);
@@ -179,9 +180,11 @@ var filename = operatingSys.tmpdir() + "\\escpos-"+Date.now()+".prt";
         function send() {
             if ( !printQ[0] ) { return; }
             if ( printQ[0].sending == true ) { return; }
+            cB('printQ[0].sending = true');
             printQ[0].sending = true;
             var file = fileSys.readFileSync(printQ[0].filename);
             var unlink = fileSys.unlinkSync(printQ[0].filename);
+            cB('typeof serialPorts.Printer.send' + typeof serialPorts.Printer.send);
             serialPorts.Printer.send(file.buffer,(resp) => { printQ.splice(0,1); send(); typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }); });
         }
     
@@ -795,7 +798,7 @@ exports.ESCPOS_CMD = {
         CENTER: new Buffer('1B6101','hex').toString('utf8'),
         RIGHT: new Buffer('1B6102','hex').toString('utf8'),
         PAGE_MODE: new Buffer('1B4C','hex').toString('utf8'),
-        OPEN_DRAWER: new Buffer('1B700119FF').toString('utf8'),
+        OPEN_DRAWER: new Buffer('1B70301919').toString('utf8'),
         // mere cutting command will cut paper in the middle of your text due to different positions of print- and cuthead
         // looks like not all printers support different cutting modes        
         CUT_FULL: new Buffer('1D5630','hex').toString('utf8'),
@@ -834,7 +837,8 @@ exports.ESCPOS_CMD = {
         
 }
 exports.openDrawer = function(cB) {
-    serialPorts.Printer.send(new Buffer('1B19FA','hex').buffer,(resp) => { cB(resp) });
+
+    serialPorts.Printer.send(new Buffer('','hex').buffer,(resp) => { cB(resp) });
 }
 
 exports.printBuffer = function(buffer,cB) {
