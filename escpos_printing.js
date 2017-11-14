@@ -193,7 +193,7 @@ var filename = operatingSys.tmpdir() + "\\escpos-"+Date.now()+".prt";
             var file = fileSys.readFileSync(printQ[0].filename);
             var unlink = fileSys.unlinkSync(printQ[0].filename);
             cB('typeof serialPorts.Printer.send ' + typeof serialPorts.Printer.send);
-            cB('file.buffer.length '+file.buffer.length);
+            cB('file.buffer.length '+file.length);
             serialPorts.Printer.send(file.buffer,(resp) => { printQ.splice(0,1); send(); typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }); });
         }
     
