@@ -59,7 +59,7 @@ function printImage(image) {
 }
 
 function Test_ImageHelloWorld() {
-
+  console.log('Test Image Hello World');
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');  
       canvas.width = 500;
@@ -85,7 +85,7 @@ function Test_ImageHelloWorld() {
 }
 
 function Text_TextHelloWorld() {
-
+      console.log('Test Text Hello World');
       Printer.ESCPOS_INIT();
 
       Printer.append("Hello World\n"); 
@@ -97,7 +97,7 @@ function Text_TextHelloWorld() {
 }
 
 function Test_Barcode() {
-
+    console.log('Test BarCode');
     Printer.ESCPOS_INIT();
     
     Printer.append(Printer.ESCPOS_BARCODE("12345678",70,3,80,0,2));
@@ -109,7 +109,7 @@ function Test_Barcode() {
 }
 
 function Test_QR() {
-
+    console.log('Test QR');
     Printer.ESCPOS_INIT();
 
     Printer.append(Printer.ESCPOS_QRCODE("http://www.google.com",51,6,48));
@@ -126,6 +126,8 @@ function Test_QR() {
 
 
 function Test_print() {
+           
+           console.log('Test Print Lots');
 
            Printer.ESCPOS_INIT();
 
