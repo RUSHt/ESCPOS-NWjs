@@ -170,10 +170,12 @@ var filename = operatingSys.tmpdir() + "\\escpos-"+Date.now()+".prt";
     printQ.push({ sending: false, filename: filename });
 
 // manual correction for the currency Symbol in my case the Euro Sign:
-        ESCPOS_RESULT = ESCPOS_RESULT.replace("€",String.fromCharCode(128));
+        //ESCPOS_RESULT = ESCPOS_RESULT.replace("€",String.fromCharCode(128));
 // and just in case you forgot it add a final printit/newline
         ESCPOS_RESULT = ESCPOS_RESULT + String.fromCharCode(10);
 // write our content to the RAW printer file 
+
+        cB('ESCPOS_RESULT.length '+ESCPOS_RESULT.length);
 
         fileSys.appendFileSync(filename, ESCPOS_RESULT,'binary');
 
@@ -190,7 +192,8 @@ var filename = operatingSys.tmpdir() + "\\escpos-"+Date.now()+".prt";
             printQ[0].sending = true;
             var file = fileSys.readFileSync(printQ[0].filename);
             var unlink = fileSys.unlinkSync(printQ[0].filename);
-            cB('typeof serialPorts.Printer.send' + typeof serialPorts.Printer.send);
+            cB('typeof serialPorts.Printer.send ' + typeof serialPorts.Printer.send);
+            cB('file.buffer.length'file.buffer.length);
             serialPorts.Printer.send(file.buffer,(resp) => { printQ.splice(0,1); send(); typeof cB == 'function' && cB({ result: resp, ESCPOS_RESULT: ESCPOS_RESULT, file }); });
         }
     
