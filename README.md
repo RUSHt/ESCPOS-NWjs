@@ -1,6 +1,6 @@
 # ESC/POS in NW.js
 
-I have modified the origional to suppoet device interface via chrome.serial, and also to take a <canvas> DOM element and directly (ish) print from it.
+I have modified the origional to support device interface via chrome.serial, and also to take a <canvas> DOM element and directly (ish) print from it.
 
 You will need a printer which is on a serial port.  In my case it is USB connected and then presented as COM8 by a Virtual Driver.  (COM8 is hard coded in main.js should you want to change it).
 
